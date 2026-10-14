@@ -6,16 +6,13 @@ import Link from "next/link";
 import { ArrowDown, Sparkles, Sun, Moon } from "lucide-react";
 
 export function HeroSection() {
-  const [stage, setStage] = useState(0); // 0: black, 1: slit of light, 2: fully revealed
+  const [stage, setStage] = useState(1); // 1: slit of light, 2: fully revealed
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
   const [heroBrightness, setHeroBrightness] = useState<"dusk" | "nocturne" | "amber">("amber");
 
   useEffect(() => {
     // Orchestrated opening sequence:
-    // Step 1: 200ms -> Slit of light appears
-    const timer1 = setTimeout(() => setStage(1), 200);
-    // Step 2: 900ms -> Architecture and typography gradually revealed
-    const timer2 = setTimeout(() => setStage(2), 900);
+    const timer = setTimeout(() => setStage(2), 400);
 
     const handleMouseMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
@@ -26,8 +23,7 @@ export function HeroSection() {
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
+      clearTimeout(timer);
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
@@ -98,10 +94,10 @@ export function HeroSection() {
       </div>
 
       {/* Hero Content Overlay */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full pt-20">
+      <div className="relative z-30 max-w-7xl mx-auto px-6 md:px-10 w-full pt-20">
         <div
           className={`transition-all duration-1000 ease-out transform ${
-            stage === 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            stage === 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
           {/* Top Architectural Metadata */}
@@ -110,22 +106,22 @@ export function HeroSection() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#D89F54] animate-pulse" />
               STUDIO MANIFESTO 01
             </span>
-            <span className="hidden sm:inline text-white/20">/</span>
-            <span className="hidden sm:inline text-[#9B9890]">BETWEEN CONCRETE AND LIGHT</span>
-            <span className="hidden sm:inline text-white/20">/</span>
-            <span className="text-[#A3A29E]">45.4642° N, 9.1900° E</span>
+            <span className="hidden sm:inline text-white/30">/</span>
+            <span className="hidden sm:inline text-[#C9A063]">BETWEEN CONCRETE AND LIGHT</span>
+            <span className="hidden sm:inline text-white/30">/</span>
+            <span className="text-[#FAF7F2]">45.4642° N, 9.1900° E</span>
           </div>
 
           {/* Main Statement (Editorial Serif) */}
-          <h1 className="font-serif-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-[#FAF7F2] font-normal leading-[1.05] max-w-5xl">
+          <h1 className="font-serif-editorial text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tight text-[#FAF7F2] font-normal leading-[1.08] max-w-5xl drop-shadow-lg">
             We don’t design spaces. <br className="hidden sm:block" />
-            <span className="italic font-light text-[#E5E3DD]">
+            <span className="italic font-light text-[#FAF7F2]">
               We design how they feel.
             </span>
           </h1>
 
           {/* Sub-Manifesto */}
-          <p className="mt-8 text-base sm:text-xl text-[#B5B3AC] max-w-2xl font-light leading-relaxed">
+          <p className="mt-8 text-base sm:text-xl text-[#E8E6DF] max-w-2xl font-light leading-relaxed drop-shadow-md">
             Architecture is not just about structure. Lighting is not just about illumination. 
             Together, they choreograph shadow, texture, and emotional consciousness.
           </p>

@@ -122,7 +122,7 @@ export function Navigation() {
               href="https://www.instagram.com/dontcallitwork/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 hover:border-[#D89F54]/40 bg-[#121213]/60 backdrop-blur-md text-[11px] font-mono-tech tracking-wider text-[#FAF7F2] hover:text-[#D89F54] transition-all"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 hover:border-[#D89F54]/40 bg-[#121213]/60 backdrop-blur-md text-[11px] font-mono-tech tracking-wider text-[#FAF7F2] hover:text-[#D89F54] transition-all"
               title="Follow @dontcallitwork on Instagram"
               data-cursor="INSTA"
             >

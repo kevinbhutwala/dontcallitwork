@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import Image from "next/image";
 import * as THREE from "three";
-import { Sparkles, RotateCcw, Sun, Sliders, Eye } from "lucide-react";
+import { Sparkles, RotateCcw, Sliders, AlertCircle } from "lucide-react";
 
 // Convert Kelvin temperature to RGB
 function kelvinToRGB(kelvin: number): THREE.Color {
@@ -49,6 +50,15 @@ function kelvinToRGB(kelvin: number): THREE.Color {
   return new THREE.Color(red / 255, green / 255, blue / 255);
 }
 
+// Convert Kelvin to Hex string for CSS/Fallback
+function kelvinToHex(kelvin: number): string {
+  const c = kelvinToRGB(kelvin);
+  const r = Math.round(c.r * 255).toString(16).padStart(2, "0");
+  const g = Math.round(c.g * 255).toString(16).padStart(2, "0");
+  const b = Math.round(c.b * 255).toString(16).padStart(2, "0");
+  return `#${r}${g}${b}`;
+}
+
 interface Preset {
   name: string;
   kelvin: number;
@@ -57,6 +67,7 @@ interface Preset {
   azimuth: number;
   ambient: number;
   tag: string;
+  fallbackImage: string;
 }
 
 const PRESETS: Preset[] = [
@@ -68,6 +79,7 @@ const PRESETS: Preset[] = [
     azimuth: -40,
     ambient: 0.25,
     tag: "Warm Intimacy",
+    fallbackImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85",
   },
   {
     name: "Zenith Noon",
@@ -77,6 +89,7 @@ const PRESETS: Preset[] = [
     azimuth: 15,
     ambient: 0.45,
     tag: "Daylight Clarity",
+    fallbackImage: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1800&q=85",
   },
   {
     name: "Golden Equinox",
@@ -86,6 +99,7 @@ const PRESETS: Preset[] = [
     azimuth: -70,
     ambient: 0.2,
     tag: "Long Raking Shadows",
+    fallbackImage: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=85",
   },
   {
     name: "Gallery Chiaroscuro",
@@ -95,6 +109,7 @@ const PRESETS: Preset[] = [
     azimuth: 0,
     ambient: 0.08,
     tag: "High Contrast Void",
+    fallbackImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=85",
   },
   {
     name: "Nocturne Sanctuary",
@@ -104,11 +119,15 @@ const PRESETS: Preset[] = [
     azimuth: 85,
     ambient: 0.05,
     tag: "Sub-Horizon Ember",
+    fallbackImage: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1800&q=85",
   },
 ];
 
 export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }) {
   const mountRef = useRef<HTMLDivElement>(null);
+
+  // WebGL support state
+  const [webGLSupported, setWebGLSupported] = useState<boolean>(true);
 
   // Lighting state
   const [kelvin, setKelvin] = useState<number>(2700);
@@ -125,12 +144,11 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
   const dirLightRef = useRef<THREE.DirectionalLight | null>(null);
   const ambientLightRef = useRef<THREE.AmbientLight | null>(null);
   const slitLightRef = useRef<THREE.PointLight | null>(null);
-  const plinthRef = useRef<THREE.Mesh | null>(null);
 
   // Mouse drag camera orbit state
   const isDraggingRef = useRef(false);
   const previousMousePositionRef = useRef({ x: 0, y: 0 });
-  const cameraAngleRef = useRef({ theta: 0.35, phi: 1.2 }); // spherical coords
+  const cameraAngleRef = useRef({ theta: 0.35, phi: 1.2 });
   const cameraDistanceRef = useRef(6.2);
 
   // Update light parameters in 3D scene
@@ -139,7 +157,6 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
 
     const lightColor = kelvinToRGB(kelvin);
 
-    // Directional light position based on elevation & azimuth
     const phi = THREE.MathUtils.degToRad(90 - elevation);
     const theta = THREE.MathUtils.degToRad(azimuth);
 
@@ -151,18 +168,18 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     dirLightRef.current.color = lightColor;
     dirLightRef.current.intensity = intensity;
 
-    // Ambient light
     ambientLightRef.current.intensity = ambientIntensity;
     ambientLightRef.current.color = lightColor.clone().multiplyScalar(0.7);
 
-    // Slit light (points down from architectural aperture)
     slitLightRef.current.color = lightColor;
     slitLightRef.current.intensity = intensity * 0.8;
   }, [kelvin, intensity, elevation, azimuth, ambientIntensity]);
 
   useEffect(() => {
-    updateLights();
-  }, [updateLights]);
+    if (webGLSupported) {
+      updateLights();
+    }
+  }, [updateLights, webGLSupported]);
 
   // Apply Preset
   const applyPreset = (preset: Preset) => {
@@ -194,13 +211,48 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     cameraRef.current.lookAt(0, 0.4, 0);
   };
 
-  // Three.js Scene Setup
+  // Three.js Scene Setup with graceful WebGL fallback
   useEffect(() => {
     const container = mountRef.current;
     if (!container) return;
 
+    // First check if WebGL is supported
+    const checkWebGL = () => {
+      try {
+        const testCanvas = document.createElement("canvas");
+        return !!(
+          window.WebGLRenderingContext &&
+          (testCanvas.getContext("webgl") || testCanvas.getContext("experimental-webgl"))
+        );
+      } catch {
+        return false;
+      }
+    };
+
+    if (!checkWebGL()) {
+      setWebGLSupported(false);
+      return;
+    }
+
     const width = container.clientWidth;
     const height = container.clientHeight || 560;
+
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+      container.appendChild(renderer.domElement);
+      rendererRef.current = renderer;
+    } catch (e) {
+      console.warn("WebGL renderer creation failed, falling back to 2D simulation mode:", e);
+      setWebGLSupported(false);
+      return;
+    }
 
     // 1. Scene
     const scene = new THREE.Scene();
@@ -212,18 +264,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     cameraRef.current = camera;
     updateCameraPosition();
 
-    // 3. Renderer with soft PCF shadows
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.0;
-    container.appendChild(renderer.domElement);
-    rendererRef.current = renderer;
-
-    // 4. Materials with procedurally generated architectural concrete canvas
+    // 3. Materials with procedurally generated architectural concrete canvas
     const createNoiseTexture = () => {
       const size = 256;
       const canvas = document.createElement("canvas");
@@ -275,29 +316,25 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
       bumpScale: 0.02,
     });
 
-    // 5. Geometry: Brutalist Architectural Chamber
-    // Floor
+    // 4. Geometry: Brutalist Architectural Chamber
     const floorGeo = new THREE.PlaneGeometry(10, 10);
     const floor = new THREE.Mesh(floorGeo, floorMat);
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
     scene.add(floor);
 
-    // Back Wall with horizontal architectural joints
     const wallGeo = new THREE.PlaneGeometry(10, 5);
     const backWall = new THREE.Mesh(wallGeo, concreteMat);
     backWall.position.set(0, 2.5, -4);
     backWall.receiveShadow = true;
     scene.add(backWall);
 
-    // Left Wall
     const leftWall = new THREE.Mesh(wallGeo, concreteMat);
     leftWall.position.set(-4, 2.5, 0);
     leftWall.rotation.y = Math.PI / 2;
     leftWall.receiveShadow = true;
     scene.add(leftWall);
 
-    // Ceiling with an open Architectural Slit
     const ceilingPart1 = new THREE.Mesh(new THREE.PlaneGeometry(6, 4), concreteMat);
     ceilingPart1.position.set(-2, 4.8, 0);
     ceilingPart1.rotation.x = Math.PI / 2;
@@ -310,23 +347,18 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     ceilingPart2.receiveShadow = true;
     scene.add(ceilingPart2);
 
-    // Central Monolithic Sculpture / Plinth
-    const plinthGeo = new THREE.BoxGeometry(1.2, 1.4, 1.2);
-    const plinth = new THREE.Mesh(plinthGeo, plinthMat);
+    const plinth = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.4, 1.2), plinthMat);
     plinth.position.set(0, 0.7, 0);
     plinth.castShadow = true;
     plinth.receiveShadow = true;
     scene.add(plinth);
-    plinthRef.current = plinth;
 
-    // Secondary Small Stepped Plinth
     const stepPlinth = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.4, 0.8), plinthMat);
     stepPlinth.position.set(1.4, 0.2, -1.2);
     stepPlinth.castShadow = true;
     stepPlinth.receiveShadow = true;
     scene.add(stepPlinth);
 
-    // Slender Vertical Light Totem / Fin
     const finMat = new THREE.MeshStandardMaterial({
       color: 0x18181a,
       roughness: 0.3,
@@ -337,7 +369,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     fin.castShadow = true;
     scene.add(fin);
 
-    // 6. Lights
+    // 5. Lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.25);
     scene.add(ambientLight);
     ambientLightRef.current = ambientLight;
@@ -356,14 +388,13 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     scene.add(dirLight);
     dirLightRef.current = dirLight;
 
-    // Architectural Slit Light (Point light shining down through the ceiling opening)
     const slitLight = new THREE.PointLight(0xfff0e0, 1.2, 8, 1.5);
     slitLight.position.set(1.2, 4.6, 0);
     slitLight.castShadow = false;
     scene.add(slitLight);
     slitLightRef.current = slitLight;
 
-    // 7. Mouse Orbit Drag Event Handlers
+    // 6. Mouse Orbit Drag Event Handlers
     const onMouseDown = (e: MouseEvent) => {
       isDraggingRef.current = true;
       previousMousePositionRef.current = { x: e.clientX, y: e.clientY };
@@ -388,7 +419,6 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
       isDraggingRef.current = false;
     };
 
-    // Touch support
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 1) {
         isDraggingRef.current = true;
@@ -424,7 +454,6 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     window.addEventListener("touchmove", onTouchMove, { passive: true });
     window.addEventListener("touchend", onTouchEnd);
 
-    // Resize Handler
     const handleResize = () => {
       if (!container || !renderer || !camera) return;
       const newWidth = container.clientWidth;
@@ -436,11 +465,9 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
 
     window.addEventListener("resize", handleResize);
 
-    // Render Loop
     let animId: number;
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      // Very slow subtle idle rotation when not dragging
       if (!isDraggingRef.current) {
         cameraAngleRef.current.theta += 0.0006;
         updateCameraPosition();
@@ -466,16 +493,61 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     };
   }, []);
 
+  const currentPresetData = PRESETS.find((p) => p.name === activePreset) || PRESETS[0];
+
   return (
-    <div className={`relative w-full rounded-3xl overflow-hidden border border-white/10 bg-[#080808] ${
-      isStandalone ? "h-[85vh] min-h-[600px]" : "h-[620px]"
-    }`}>
+    <div
+      className={`relative w-full rounded-3xl overflow-hidden border border-white/10 bg-[#080808] ${
+        isStandalone ? "h-[85vh] min-h-[600px]" : "h-[620px]"
+      }`}
+    >
       {/* 3D WebGL Canvas Mount Container */}
-      <div
-        ref={mountRef}
-        className="w-full h-full cursor-grab active:cursor-grabbing select-none"
-        data-cursor="ORBIT 3D"
-      />
+      {webGLSupported ? (
+        <div
+          ref={mountRef}
+          className="w-full h-full cursor-grab active:cursor-grabbing select-none"
+          data-cursor="ORBIT 3D"
+        />
+      ) : (
+        /* Graceful High-Fidelity 2D Photographic & Lighting Simulation Fallback */
+        <div className="relative w-full h-full select-none overflow-hidden bg-[#0A0A0C]">
+          <Image
+            src={currentPresetData.fallbackImage}
+            alt={currentPresetData.name}
+            fill
+            sizes="100vw"
+            className="object-cover object-center transition-all duration-700 ease-out"
+            style={{
+              filter: `brightness(${0.5 + intensity * 0.25}) contrast(${1.0 + (elevation / 90) * 0.3})`,
+            }}
+          />
+          {/* Dynamic Kelvin color temperature overlay filter */}
+          <div
+            className="absolute inset-0 pointer-events-none transition-colors duration-700 mix-blend-color"
+            style={{
+              backgroundColor: kelvinToHex(kelvin),
+              opacity: 0.35,
+            }}
+          />
+          {/* Dynamic sun position light gradient */}
+          <div
+            className="absolute inset-0 pointer-events-none transition-all duration-700"
+            style={{
+              background: `radial-gradient(circle at ${50 + (azimuth / 180) * 40}% ${
+                90 - elevation
+              }%, ${kelvinToHex(kelvin)} 0%, transparent 60%)`,
+              opacity: 0.45 * intensity,
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/40 pointer-events-none" />
+
+          {/* Fallback Notice */}
+          <div className="absolute top-20 left-6 px-3 py-1.5 rounded-full bg-[#080808]/80 backdrop-blur-md border border-white/10 text-[10px] font-mono-tech text-[#D89F54] flex items-center gap-1.5">
+            <AlertCircle className="w-3 h-3" />
+            <span>2D ATMOSPHERIC SIMULATION MODE</span>
+          </div>
+        </div>
+      )}
 
       {/* Top Floating Telemetry HUD */}
       <div className="absolute top-6 left-6 right-6 flex flex-wrap items-center justify-between gap-4 pointer-events-none">
@@ -491,14 +563,16 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
         </div>
 
         <div className="flex items-center gap-2 pointer-events-auto">
-          <button
-            onClick={resetCamera}
-            className="p-2.5 rounded-full bg-[#080808]/85 hover:bg-[#18181A] backdrop-blur-md border border-white/10 text-[#A3A29E] hover:text-[#FAF7F2] transition-colors"
-            title="Reset Camera View"
-            data-cursor="RESET"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-          </button>
+          {webGLSupported && (
+            <button
+              onClick={resetCamera}
+              className="p-2.5 rounded-full bg-[#080808]/85 hover:bg-[#18181A] backdrop-blur-md border border-white/10 text-[#A3A29E] hover:text-[#FAF7F2] transition-colors"
+              title="Reset Camera View"
+              data-cursor="RESET"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
       </div>
 
