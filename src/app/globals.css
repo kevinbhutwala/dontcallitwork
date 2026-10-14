@@ -15,7 +15,8 @@
   --accent-tungsten: #F5C677;
   --accent-ivory: #FAF7F2;
 
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Space Grotesk', monospace;
 }
@@ -69,10 +70,11 @@ input, textarea, select {
   background: #444340;
 }
 
-/* Typography Utility Classes */
-.font-serif-editorial {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  letter-spacing: -0.015em;
+/* Typography Utility Classes - Professional Architectural Identity */
+.font-serif-editorial,
+.font-display-architectural {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.03em;
 }
 
 .font-mono-tech {
