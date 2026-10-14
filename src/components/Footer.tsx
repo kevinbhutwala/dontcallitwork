@@ -75,8 +75,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-[#FAF7F2] transition-colors">
-                  Project Inquiries
+                <Link href="/#materials" className="hover:text-[#FAF7F2] transition-colors">
+                  Materiality & Atmosphere
                 </Link>
               </li>
             </ul>

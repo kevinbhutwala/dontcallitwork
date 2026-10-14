@@ -102,14 +102,6 @@ export function Navigation() {
             >
               Philosophy
             </Link>
-            <Link
-              href="/contact"
-              className={`hover:text-[#FAF7F2] transition-colors ${
-                pathname === "/contact" ? "text-[#FAF7F2]" : ""
-              }`}
-            >
-              Inquire
-            </Link>
           </nav>
 
           {/* Right Action Icons & Direct Instagram Link */}
@@ -165,7 +157,6 @@ export function Navigation() {
               { href: "/#materials", label: "05. Material Atmosphere" },
               { href: "/#process", label: "06. Architectural Process" },
               { href: "/about", label: "07. Philosophy & Studio" },
-              { href: "/contact", label: "08. Project Inquiries" },
             ].map((item, idx) => (
               <Link
                 key={idx}

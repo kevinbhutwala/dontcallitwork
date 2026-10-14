@@ -44,11 +44,10 @@ export function ClosingSection() {
         {/* Call to Action Buttons */}
         <div className="mt-12 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           <Link
-            href="/contact"
+            href="/projects"
             className="px-8 py-4 rounded-full bg-[#FAF7F2] text-[#080808] font-mono-tech text-xs uppercase tracking-widest font-semibold hover:bg-[#D89F54] hover:text-white transition-all shadow-xl hover:shadow-[#D89F54]/25 flex items-center gap-2 group"
-            data-cursor="INQUIRE"
           >
-            <span>Initiate Spatial Dialogue</span>
+            <span>Explore Portfolio Archive</span>
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
 

@@ -199,14 +199,13 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                 </div>
               </div>
 
-              {/* Direct Inquiry Action */}
+              {/* Direct Portfolio Navigation Action */}
               <div className="mt-8 pt-6 border-t border-white/10">
                 <Link
-                  href="/contact"
+                  href="/projects"
                   className="w-full py-3.5 rounded-full bg-[#FAF7F2] text-[#080808] font-mono-tech text-xs uppercase tracking-widest font-semibold hover:bg-[#D89F54] hover:text-white transition-all text-center block"
-                  data-cursor="COMMISSION"
                 >
-                  Commission Similar Atmosphere
+                  Explore All Curated Spaces
                 </Link>
               </div>
             </div>
