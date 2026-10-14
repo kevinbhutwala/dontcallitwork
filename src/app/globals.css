@@ -1,26 +1,117 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-obsidian: #080808;
+  --bg-charcoal: #121213;
+  --bg-surface: #19191B;
+  --bg-concrete: #242426;
+  
+  --text-primary: #F4F1EA;
+  --text-secondary: #9B9890;
+  --text-muted: #64625D;
+  
+  --accent-amber: #D89F54;
+  --accent-amber-glow: rgba(216, 159, 84, 0.15);
+  --accent-tungsten: #F5C677;
+  --accent-ivory: #FAF7F2;
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Space Grotesk', monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  background-color: #080808;
+  color: #F4F1EA;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #080808;
+  color: #F4F1EA;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(216, 159, 84, 0.35);
+  color: #FFFFFF;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+::-webkit-scrollbar-thumb {
+  background: #28282B;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #444340;
+}
+
+/* Typography Utility Classes */
+.font-serif-editorial {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  letter-spacing: -0.015em;
+}
+
+.font-mono-tech {
+  font-family: 'Space Grotesk', monospace;
+  letter-spacing: 0.05em;
+}
+
+.font-sans-clean {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Subtle Architectural Grid Background */
+.bg-architectural-grid {
+  background-size: 80px 80px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+.bg-dot-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0);
+  background-size: 32px 32px;
+}
+
+/* Architectural grain & noise overlay */
+.concrete-noise {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+  background-size: 4px 4px;
+}
+
+/* Slit light effect */
+.light-slit {
+  position: relative;
+  overflow: hidden;
+}
+
+.light-slit::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(245, 198, 119, 0.2), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.75s ease;
+}
+
+.light-slit:hover::after {
+  left: 200%;
 }
