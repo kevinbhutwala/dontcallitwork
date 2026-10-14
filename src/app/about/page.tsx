@@ -14,7 +14,7 @@ export default function AboutPage() {
 
       <main className="pt-32 pb-24 max-w-7xl mx-auto px-6 md:px-10">
         {/* Editorial Studio Header */}
-        <div className="mb-20">
+        <div className="mb-20 reveal-on-scroll">
           <div className="flex items-center gap-3 text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
             <span>Studio Monograph</span>
             <span className="text-white/20">/</span>
@@ -32,7 +32,7 @@ export default function AboutPage() {
         </div>
 
         {/* Studio Image & Core Philosophy Banner */}
-        <div className="relative h-[450px] sm:h-[600px] w-full rounded-3xl overflow-hidden border border-white/10 mb-20">
+        <div className="relative h-[450px] sm:h-[600px] w-full rounded-3xl overflow-hidden border border-white/10 mb-20 reveal-scale delay-100">
           <Image
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2400&q=90"
             alt="DON'T CALL IT WORK Architectural Interior"

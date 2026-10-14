@@ -34,7 +34,7 @@ export default function Home() {
       {/* 05. Signature Interactive Feature: The Light Room 3D */}
       <section className="relative py-28 md:py-36 bg-[#080808] border-t border-white/[0.06] overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 reveal-on-scroll">
             <div>
               <div className="flex items-center gap-2 text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
                 <Sparkles className="w-3.5 h-3.5" />
@@ -60,7 +60,9 @@ export default function Home() {
           </div>
 
           {/* Interactive Three.js WebGL Chamber */}
-          <LightRoom3D isStandalone={false} />
+          <div className="reveal-scale delay-100">
+            <LightRoom3D isStandalone={false} />
+          </div>
         </div>
       </section>
 

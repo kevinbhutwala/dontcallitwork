@@ -64,7 +64,7 @@ export function ProcessSection() {
     <section id="process" className="relative py-28 md:py-36 bg-[#0B0B0D] border-t border-white/[0.06] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         {/* Section Header */}
-        <div className="mb-20">
+        <div className="mb-20 reveal-on-scroll">
           <p className="text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
             06 // The Architectural Process
           </p>
@@ -80,7 +80,7 @@ export function ProcessSection() {
         {/* 5-Step Narrative Sequence */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Column: Progress Timeline Steps */}
-          <div className="lg:col-span-5 space-y-3">
+          <div className="lg:col-span-5 space-y-3 reveal-on-scroll delay-100">
             {steps.map((s, idx) => {
               const Icon = s.icon;
               const isSelected = activeStep === idx;
@@ -117,7 +117,7 @@ export function ProcessSection() {
           </div>
 
           {/* Right Column: Visual Stage with Details */}
-          <div className="lg:col-span-7 sticky top-28">
+          <div className="lg:col-span-7 sticky top-28 reveal-scale delay-200">
             <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#121215] p-6 sm:p-8">
               <div className="relative h-[320px] sm:h-[400px] w-full rounded-2xl overflow-hidden mb-6 border border-white/10">
                 <Image

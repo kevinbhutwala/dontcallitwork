@@ -82,7 +82,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Left Column: Architectural Concept & Lighting Strategy */}
           <div className="lg:col-span-8 space-y-12">
-            <div>
+            <div className="reveal-on-scroll">
               <p className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-[#D89F54] mb-3">
                 01 // Architectural Concept
               </p>
@@ -97,7 +97,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
               </p>
             </div>
 
-            <div className="pt-8 border-t border-white/10">
+            <div className="pt-8 border-t border-white/10 reveal-on-scroll">
               <p className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-[#D89F54] mb-3">
                 02 // Lighting Choreography
               </p>
@@ -110,14 +110,14 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
             </div>
 
             {/* Gallery Images */}
-            <div className="pt-8 border-t border-white/10 space-y-8">
+            <div className="pt-8 border-t border-white/10 space-y-8 reveal-on-scroll">
               <p className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-[#D89F54] mb-2">
                 03 // Spatial Perspectives & Mood Studies
               </p>
               {project.gallery.map((img, idx) => (
                 <div
                   key={idx}
-                  className="rounded-2xl overflow-hidden border border-white/10 bg-[#121214] group"
+                  className="rounded-2xl overflow-hidden border border-white/10 bg-[#121214] group reveal-scale delay-100"
                 >
                   <div className="relative h-[420px] sm:h-[500px] w-full overflow-hidden">
                     <Image

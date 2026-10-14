@@ -19,7 +19,7 @@ export function SelectedSpacesSection() {
     <section id="spaces" className="relative py-28 md:py-36 bg-[#080808] border-t border-white/[0.06] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         {/* Section Header & Editorial Introduction */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 reveal-on-scroll">
           <div>
             <div className="flex items-center gap-2 text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
               <span>03 // Selected Spaces</span>
@@ -40,7 +40,7 @@ export function SelectedSpacesSection() {
         </div>
 
         {/* Category Filters */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-12 scrollbar-none text-xs font-mono-tech">
+        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-12 scrollbar-none text-xs font-mono-tech reveal-on-scroll delay-100">
           <Filter className="w-3.5 h-3.5 text-[#787774] mr-2 shrink-0 hidden sm:block" />
           {categories.map((cat) => (
             <button
@@ -79,10 +79,12 @@ export function SelectedSpacesSection() {
                 ? "h-[450px] sm:h-[540px]"
                 : "h-[400px] sm:h-[460px]";
 
+            const delayClass = (idx % 3 === 0) ? "delay-100" : (idx % 3 === 1) ? "delay-200" : "delay-300";
+
             return (
               <div
                 key={project.slug}
-                className={`${colSpan} group relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#121213] flex flex-col justify-end transition-all duration-500 hover:border-[#D89F54]/50 hover:shadow-2xl hover:shadow-[#D89F54]/5`}
+                className={`${colSpan} group relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#121213] flex flex-col justify-end transition-all duration-500 hover:border-[#D89F54]/50 hover:shadow-2xl hover:shadow-[#D89F54]/5 reveal-on-scroll ${delayClass}`}
                 data-cursor="VIEW SPACE"
               >
                 {/* Background Image Container with Zoom */}

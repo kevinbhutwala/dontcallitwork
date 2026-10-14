@@ -31,7 +31,7 @@ export default function ProjectsPage() {
 
       <main className="pt-32 pb-24 max-w-7xl mx-auto px-6 md:px-10">
         {/* Header Section */}
-        <div className="mb-16">
+        <div className="mb-16 reveal-on-scroll">
           <div className="flex items-center gap-3 text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
             <span>Portfolio Archive</span>
             <span className="text-white/20">/</span>
@@ -50,7 +50,7 @@ export default function ProjectsPage() {
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-white/[0.08] mb-12">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-white/[0.08] mb-12 reveal-on-scroll delay-100">
           {/* Categories */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none text-xs font-mono-tech">
             {categories.map((cat) => (
@@ -112,13 +112,14 @@ export default function ProjectsPage() {
         {/* View Mode 1: Asymmetric Grid */}
         {viewMode === "grid" && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project: Project) => (
-              <Link
-                key={project.slug}
-                href={`/projects/${project.slug}`}
-                className="group relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#121213] flex flex-col justify-end transition-all duration-500 hover:border-[#D89F54]/50"
-                data-cursor="CASE STUDY"
-              >
+            {filteredProjects.map((project: Project, idx: number) => {
+              const delayClass = (idx % 3 === 0) ? "delay-100" : (idx % 3 === 1) ? "delay-200" : "delay-300";
+              return (
+                <Link
+                  key={project.slug}
+                  href={`/projects/${project.slug}`}
+                  className={`group relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#121213] flex flex-col justify-end transition-all duration-500 hover:border-[#D89F54]/50 reveal-on-scroll ${delayClass}`}
+                >
                 <div className="relative w-full h-[380px] overflow-hidden">
                   <Image
                     src={project.heroImage}
@@ -162,8 +163,9 @@ export default function ProjectsPage() {
                   </div>
                 </div>
               </Link>
-            ))}
-          </div>
+            );
+          })}
+        </div>
         )}
 
         {/* View Mode 2: Minimalist Photometric Index Table */}

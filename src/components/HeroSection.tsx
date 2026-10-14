@@ -8,6 +8,7 @@ import { ArrowDown, Sparkles, Sun, Moon } from "lucide-react";
 export function HeroSection() {
   const [stage, setStage] = useState(1); // 1: slit of light, 2: fully revealed
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+  const [scrollY, setScrollY] = useState(0);
   const [heroBrightness, setHeroBrightness] = useState<"dusk" | "nocturne" | "amber">("amber");
 
   useEffect(() => {
@@ -21,20 +22,27 @@ export function HeroSection() {
       setMouseOffset({ x, y });
     };
 
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => {
       clearTimeout(timer);
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
     <section className="relative w-full h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-[#080808] select-none">
-      {/* Background Architectural Image Container with Parallax */}
+      {/* Background Architectural Image Container with Kinetic Scroll Parallax */}
       <div
-        className="absolute inset-0 transition-transform duration-700 ease-out will-change-transform scale-105"
+        className="absolute inset-0 transition-transform duration-300 ease-out will-change-transform scale-110"
         style={{
-          transform: `translate3d(${mouseOffset.x * -1}px, ${mouseOffset.y * -1}px, 0)`,
+          transform: `translate3d(${mouseOffset.x * -1}px, calc(${mouseOffset.y * -1}px + ${scrollY * 0.28}px), 0)`,
         }}
       >
         <Image
@@ -99,6 +107,10 @@ export function HeroSection() {
           className={`transition-all duration-1000 ease-out transform ${
             stage === 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
+          style={{
+            transform: `translate3d(0, ${scrollY * 0.16}px, 0)`,
+            opacity: Math.max(0, 1 - scrollY / 650),
+          }}
         >
           {/* Top Architectural Metadata */}
           <div className="flex flex-wrap items-center gap-3 sm:gap-6 mb-8 text-[11px] font-mono-tech tracking-widest text-[#D89F54] uppercase">

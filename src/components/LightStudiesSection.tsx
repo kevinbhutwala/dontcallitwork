@@ -110,7 +110,7 @@ export function LightStudiesSection() {
 
       <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
         {/* Section Header */}
-        <div className="mb-14">
+        <div className="mb-14 reveal-on-scroll">
           <p className="text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
             04 // Interactive Light Studies
           </p>
@@ -124,7 +124,7 @@ export function LightStudiesSection() {
         </div>
 
         {/* Mood Selector Buttons */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-10 reveal-on-scroll delay-100">
           {moods.map((m) => {
             const Icon = m.icon;
             const isSelected = activeMood.id === m.id;
@@ -164,7 +164,7 @@ export function LightStudiesSection() {
         </div>
 
         {/* Interactive Showcase Box: Image + Photometric Telemetry */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch rounded-3xl border border-white/10 bg-[#121215] overflow-hidden p-6 sm:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch rounded-3xl border border-white/10 bg-[#121215] overflow-hidden p-6 sm:p-8 reveal-scale delay-200">
           {/* Left: Dynamic Visual with smooth transition */}
           <div className="lg:col-span-7 relative min-h-[380px] sm:min-h-[480px] rounded-2xl overflow-hidden border border-white/[0.08]">
             <Image

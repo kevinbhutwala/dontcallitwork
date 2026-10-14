@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { ScrollProgress } from "@/components/ScrollProgress";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -57,6 +59,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-[#080808] text-[#F3F1EC] font-sans overflow-x-hidden">
+        {/* Buttery Smooth Kinetic Inertial Scroll */}
+        <SmoothScroll />
+        {/* Subtle Architectural Scroll Progress Indicator */}
+        <ScrollProgress />
         {children}
       </body>
     </html>

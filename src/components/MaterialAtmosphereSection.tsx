@@ -12,7 +12,7 @@ export function MaterialAtmosphereSection() {
     <section id="materials" className="relative py-28 md:py-36 bg-[#080808] border-t border-white/[0.06] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 reveal-on-scroll">
           <div>
             <p className="text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
               05 // Materiality & Atmosphere
@@ -28,7 +28,7 @@ export function MaterialAtmosphereSection() {
         </div>
 
         {/* Material Selection Tabs */}
-        <div className="flex items-center gap-3 overflow-x-auto pb-4 mb-10 scrollbar-none text-xs font-mono-tech">
+        <div className="flex items-center gap-3 overflow-x-auto pb-4 mb-10 scrollbar-none text-xs font-mono-tech reveal-on-scroll delay-100">
           {MATERIALS.map((mat) => (
             <button
               key={mat.id}
@@ -46,7 +46,7 @@ export function MaterialAtmosphereSection() {
         </div>
 
         {/* Interactive Material Stage */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch rounded-3xl border border-white/10 bg-[#121214] p-6 sm:p-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch rounded-3xl border border-white/10 bg-[#121214] p-6 sm:p-10 reveal-scale delay-200">
           {/* Macro Visual */}
           <div className="lg:col-span-6 relative min-h-[400px] sm:min-h-[500px] rounded-2xl overflow-hidden border border-white/10 group">
             <Image

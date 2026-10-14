@@ -43,7 +43,7 @@ export function PhilosophySection() {
 
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         {/* Section Header */}
-        <div className="mb-20">
+        <div className="mb-20 reveal-on-scroll">
           <p className="text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-4">
             02 // The Studio Philosophy
           </p>
@@ -59,7 +59,7 @@ export function PhilosophySection() {
         {/* 3 Interactive Editorial Pillars */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left: Pillar Selectors */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className="lg:col-span-6 space-y-6 reveal-on-scroll delay-100">
             {pillars.map((pillar, idx) => (
               <div
                 key={idx}
@@ -93,7 +93,7 @@ export function PhilosophySection() {
           </div>
 
           {/* Right: Immersive Visual & Photometric Metric */}
-          <div className="lg:col-span-6 relative">
+          <div className="lg:col-span-6 relative reveal-scale delay-200">
             <div className="relative h-[480px] sm:h-[560px] w-full rounded-2xl overflow-hidden border border-white/10 group">
               <Image
                 src={pillars[activePillar].image}

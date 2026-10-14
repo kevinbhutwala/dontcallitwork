@@ -26,7 +26,7 @@ export function ClosingSection() {
       <div className="absolute w-[600px] h-[600px] rounded-full bg-[#D89F54]/15 blur-[160px] pointer-events-none" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-10 text-center py-24">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-10 text-center py-24 reveal-on-scroll">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-[#080808]/70 backdrop-blur-md text-[10px] font-mono-tech tracking-[0.25em] text-[#D89F54] uppercase mb-8">
           <span className="w-1.5 h-1.5 rounded-full bg-[#D89F54]" />
           <span>CLOSING MANIFESTO</span>

@@ -506,7 +506,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
         <div
           ref={mountRef}
           className="w-full h-full cursor-grab active:cursor-grabbing select-none"
-          data-cursor="ORBIT 3D"
+          data-lenis-prevent
         />
       ) : (
         /* Graceful High-Fidelity 2D Photographic & Lighting Simulation Fallback */
