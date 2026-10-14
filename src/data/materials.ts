@@ -73,7 +73,7 @@ export const MATERIALS: MaterialStudy[] = [
     texture: "Alligator carbon crinkles with iridescent charcoal sheen",
     tactileDescription:
       "The ultimate light sponge. Deeply charred timber swallows stray illumination, creating intense visual contrast where adjacent illuminated surfaces shine with jewel-like clarity.",
-    image: "https://images.unsplash.com/photo-1508873696983-2df5703bc20d?auto=format&fit=crop&w=1200&q=85",
+    image: "/images/yakisugi.jpg",
     specularBehavior: "Zero primary reflection with subtle micro-facet diamond glints under raking spots",
     architecturalApplication: "Acoustic ceiling baffles, tea house exterior envelopes, contemplative alcoves",
   },

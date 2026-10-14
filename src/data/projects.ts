@@ -219,6 +219,11 @@ export const PROJECTS: Project[] = [
         caption: "Plinth threshold emerging from nocturnal shadows",
         mood: "Ember Whispers",
       },
+      {
+        url: "/images/yakisugi.jpg",
+        caption: "Alligator-skin Yakisugi charred cedar timber facade under tungsten raking light",
+        mood: "Carbonized Texture Study",
+      },
     ],
     photometrics: {
       fixtureType: "Custom Pierced Ceramic Point Luminaires",
