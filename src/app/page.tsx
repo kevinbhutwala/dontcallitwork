@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { CustomCursor } from "@/components/CustomCursor";
 import { HeroSection } from "@/components/HeroSection";
 import { PhilosophySection } from "@/components/PhilosophySection";
 import { SelectedSpacesSection } from "@/components/SelectedSpacesSection";
@@ -17,9 +16,6 @@ import { ClosingSection } from "@/components/ClosingSection";
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-[#080808] text-[#F4F1EA]">
-      {/* Precision Architectural Custom Cursor */}
-      <CustomCursor />
-
       {/* Floating Header Navigation */}
       <Navigation />
 

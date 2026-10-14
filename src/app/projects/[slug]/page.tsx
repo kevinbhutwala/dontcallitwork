@@ -4,7 +4,6 @@ import Link from "next/link";
 import { PROJECTS, Project } from "@/data/projects";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { CustomCursor } from "@/components/CustomCursor";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Sparkles, Layers, Sliders } from "lucide-react";
 
 interface ProjectPageProps {
@@ -31,7 +30,6 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
   return (
     <div className="min-h-screen bg-[#080808] text-[#F4F1EA]">
-      <CustomCursor />
       <Navigation />
 
       {/* Cinematic Full-Bleed Hero */}

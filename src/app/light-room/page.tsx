@@ -4,13 +4,11 @@ import Link from "next/link";
 import { ArrowLeft, Sparkles, Sliders, Info, ShieldCheck } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { CustomCursor } from "@/components/CustomCursor";
 import { LightRoom3D } from "@/components/LightRoom3D";
 
 export default function LightRoomPage() {
   return (
     <div className="min-h-screen bg-[#080808] text-[#F4F1EA]">
-      <CustomCursor />
       <Navigation />
 
       <main className="pt-32 pb-24 max-w-7xl mx-auto px-6 md:px-10">
