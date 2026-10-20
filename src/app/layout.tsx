@@ -34,13 +34,29 @@ export const metadata: Metadata = {
     title: "DON’T CALL IT WORK — Architecture & Lighting Studio",
     description: "Architecture is not just structure. Lighting is not just illumination.",
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "DON’T CALL IT WORK",
+  },
+  formatDetection: {
+    telephone: false,
+    date: false,
+    address: false,
+    email: false,
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#080808",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#080808" },
+    { media: "(prefers-color-scheme: light)", color: "#080808" },
+  ],
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  viewportFit: "cover",
+  interactiveWidget: "resizes-content",
 };
 
 export default function RootLayout({
@@ -56,6 +72,28 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@500;600;700;800&display=swap"
           rel="stylesheet"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              "name": "DON’T CALL IT WORK",
+              "url": "https://dontcallitwork.com",
+              "description":
+                "An architectural and lighting design studio exploring the emotional resonance of space, materials, shadow, and illumination.",
+              "sameAs": ["https://www.instagram.com/dontcallitwork/"],
+              "knowsAbout": [
+                "Architecture",
+                "Lighting Design",
+                "Spatial Experience",
+                "Materiality",
+                "Concrete Architecture",
+                "Tungsten Lighting"
+              ]
+            })
+          }}
         />
       </head>
       <body className="min-h-screen bg-[#080808] text-[#F3F1EC] font-sans overflow-x-hidden">

@@ -8,15 +8,23 @@ export function SmoothScroll() {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Detect touch-first / mobile device
+    const isTouchDevice =
+      typeof window !== "undefined" &&
+      ("ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.matchMedia("(pointer: coarse)").matches);
+
     // Initialize Lenis with refined kinetic physics
+    // On iOS and touch devices, preserve 100% native momentum scrolling and ProMotion 120Hz
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: isTouchDevice ? 0.8 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential deceleration
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 0.95,
-      touchMultiplier: 1.4,
+      touchMultiplier: isTouchDevice ? 0 : 1, // Disable touch interception on iOS/mobile to keep native velocity
       infinite: false,
     });
 
@@ -42,8 +50,8 @@ export function SmoothScroll() {
 
     const observer = new IntersectionObserver(observerCallback, {
       root: null,
-      rootMargin: "0px 0px -8% 0px", // triggers slightly before scrolling fully into view
-      threshold: 0.1,
+      rootMargin: isTouchDevice ? "0px 0px 50px 0px" : "0px 0px -5% 0px", // triggers seamlessly on mobile
+      threshold: isTouchDevice ? 0.05 : 0.1,
     });
 
     // Observe all present and future reveal elements

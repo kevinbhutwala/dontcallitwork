@@ -4,7 +4,7 @@ import Link from "next/link";
 import { PROJECTS, Project } from "@/data/projects";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Sparkles, Layers, Sliders } from "lucide-react";
+import { ArrowLeft, ArrowRight, Layers, Sliders } from "lucide-react";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -33,7 +33,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
       <Navigation />
 
       {/* Cinematic Full-Bleed Hero */}
-      <section className="relative w-full h-[80vh] min-h-[600px] flex items-end pb-20 overflow-hidden">
+      <section className="relative w-full h-[65svh] sm:h-[80vh] min-h-[440px] sm:min-h-[580px] flex items-end pb-10 sm:pb-20 overflow-hidden">
         <Image
           src={project.heroImage}
           alt={project.title}
@@ -45,20 +45,20 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/40 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/80 via-transparent to-[#080808]/80" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10 w-full">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 text-xs font-mono-tech uppercase tracking-widest text-[#D89F54] hover:text-[#FAF7F2] transition-colors mb-6 group"
+            className="inline-flex items-center gap-2 text-xs font-mono-tech uppercase tracking-widest text-[#D89F54] hover:text-[#FAF7F2] active:scale-95 transition-all mb-4 sm:mb-6 group"
           >
             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
             <span>Return to Portfolio Archive</span>
           </Link>
 
-          <div className="flex flex-wrap items-center gap-3 text-xs font-mono-tech mb-4">
-            <span className="px-3 py-1 rounded-full bg-[#080808]/80 border border-white/10 text-[#FAF7F2]">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono-tech mb-3 sm:mb-4">
+            <span className="px-2.5 sm:px-3 py-1 rounded-full bg-[#080808]/85 border border-white/10 text-[#FAF7F2]">
               {project.category}
             </span>
-            <span className="px-3 py-1 rounded-full bg-[#D89F54]/20 border border-[#D89F54]/40 text-[#D89F54]">
+            <span className="px-2.5 sm:px-3 py-1 rounded-full bg-[#D89F54]/20 border border-[#D89F54]/40 text-[#D89F54]">
               {project.kelvin}
             </span>
             <span className="text-[#787774]">·</span>
@@ -67,19 +67,19 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
             <span className="text-[#A3A29E]">{project.year}</span>
           </div>
 
-          <h1 className="font-serif-editorial text-4xl sm:text-6xl md:text-8xl text-[#FAF7F2] font-normal tracking-tight max-w-5xl">
+          <h1 className="font-serif-editorial text-3xl sm:text-6xl md:text-8xl text-[#FAF7F2] font-normal tracking-tight max-w-5xl">
             {project.title}
           </h1>
 
-          <p className="mt-4 text-base sm:text-xl text-[#B5B3AC] max-w-3xl font-light">
+          <p className="mt-3 sm:mt-4 text-sm sm:text-xl text-[#B5B3AC] max-w-3xl font-light">
             {project.subtitle}
           </p>
         </div>
       </section>
 
       {/* Main Editorial Content & Specifications */}
-      <main className="max-w-7xl mx-auto px-6 md:px-10 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-12 sm:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
           {/* Left Column: Architectural Concept & Lighting Strategy */}
           <div className="lg:col-span-8 space-y-12">
             <div className="reveal-on-scroll">
@@ -119,7 +119,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                   key={idx}
                   className="rounded-2xl overflow-hidden border border-white/10 bg-[#121214] group reveal-scale delay-100"
                 >
-                  <div className="relative h-[420px] sm:h-[500px] w-full overflow-hidden">
+                  <div className="relative h-[250px] sm:h-[400px] md:h-[500px] w-full overflow-hidden">
                     <Image
                       src={img.url}
                       alt={img.caption}
@@ -132,7 +132,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                       {img.mood}
                     </div>
                   </div>
-                  <div className="p-5 flex items-center justify-between text-xs font-mono-tech text-[#9B9890]">
+                  <div className="p-4 sm:p-5 flex items-center justify-between text-xs font-mono-tech text-[#9B9890]">
                     <span>{img.caption}</span>
                     <span className="text-[#64625D]">Perspective 0{idx + 1}</span>
                   </div>
@@ -143,7 +143,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
           {/* Right Column: Technical Specification Telemetry Card */}
           <div className="lg:col-span-4 space-y-8">
-            <div className="sticky top-28 p-8 rounded-3xl border border-white/10 bg-[#121215]">
+            <div className="lg:sticky lg:top-28 p-5 sm:p-8 rounded-3xl border border-white/10 bg-[#121215]">
               <div className="flex items-center gap-2 text-[10px] font-mono-tech uppercase tracking-[0.25em] text-[#D89F54] mb-6">
                 <Sliders className="w-3.5 h-3.5" />
                 <span>Photometric Dossier</span>

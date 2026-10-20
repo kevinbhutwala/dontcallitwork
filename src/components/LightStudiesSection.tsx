@@ -101,30 +101,30 @@ export function LightStudiesSection() {
   const [activeMood, setActiveMood] = useState<LightMood>(moods[2]); // Default to Warm Ambient
 
   return (
-    <section id="studies" className="relative py-28 md:py-36 bg-[#0B0B0D] border-t border-white/[0.06] overflow-hidden">
+    <section id="studies" className="relative py-20 sm:py-28 md:py-36 bg-[#0B0B0D] border-t border-white/[0.06] overflow-hidden">
       {/* Dynamic Kelvin-reactive ambient background glow */}
       <div
-        className="absolute top-1/3 right-1/4 w-[600px] h-[600px] rounded-full blur-[180px] pointer-events-none transition-all duration-1000 opacity-20"
+        className="absolute top-1/3 right-1/4 w-[320px] sm:w-[600px] h-[320px] sm:h-[600px] rounded-full blur-[120px] sm:blur-[180px] pointer-events-none transition-all duration-1000 opacity-20"
         style={{ backgroundColor: activeMood.colorHex }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 relative z-10">
         {/* Section Header */}
-        <div className="mb-14 reveal-on-scroll">
-          <p className="text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
+        <div className="mb-10 sm:mb-14 reveal-on-scroll">
+          <p className="text-[10px] sm:text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
             04 // Interactive Light Studies
           </p>
-          <h2 className="font-serif-editorial text-4xl sm:text-6xl md:text-7xl text-[#FAF7F2] font-normal tracking-tight">
+          <h2 className="font-serif-editorial text-3xl sm:text-6xl md:text-7xl text-[#FAF7F2] font-normal tracking-tight">
             One Space. <br />
             <span className="italic text-[#E5E3DD]">Five Lighting Atmospheres.</span>
           </h2>
-          <p className="mt-6 text-base sm:text-lg text-[#9B9890] max-w-2xl font-light">
+          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-[#9B9890] max-w-2xl font-light">
             Toggle between calibrated lighting moods below to observe how the exact same architectural geometry transforms in perceived volume, texture, and emotional temperature.
           </p>
         </div>
 
-        {/* Mood Selector Buttons */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-10 reveal-on-scroll delay-100">
+        {/* Mood Selector Buttons: Smooth iOS Horizontal Scroll on Mobile, Grid on Tablet/Desktop */}
+        <div className="flex overflow-x-auto gap-2.5 sm:gap-3 pb-2 sm:pb-0 mb-8 sm:mb-10 ios-scroll-x sm:grid sm:grid-cols-3 lg:grid-cols-5 reveal-on-scroll delay-100 -mx-4 px-4 sm:mx-0 sm:px-0">
           {moods.map((m) => {
             const Icon = m.icon;
             const isSelected = activeMood.id === m.id;
@@ -132,12 +132,11 @@ export function LightStudiesSection() {
               <button
                 key={m.id}
                 onClick={() => setActiveMood(m)}
-                className={`p-4 rounded-xl border text-left transition-all duration-300 flex flex-col justify-between h-28 ${
+                className={`p-3.5 sm:p-4 rounded-xl border text-left transition-all duration-300 flex flex-col justify-between min-w-[145px] sm:min-w-0 shrink-0 sm:shrink h-24 sm:h-28 active:scale-95 ${
                   isSelected
                     ? "bg-[#18181C] border-[#D89F54] shadow-lg shadow-[#D89F54]/10"
                     : "bg-[#121214]/60 border-white/[0.06] hover:border-white/20 hover:bg-[#161619]"
                 }`}
-                data-cursor="SWITCH LIGHT"
               >
                 <div className="flex items-center justify-between">
                   <Icon
@@ -151,7 +150,7 @@ export function LightStudiesSection() {
                   />
                 </div>
                 <div>
-                  <p className="font-serif-editorial text-base text-[#FAF7F2] font-medium leading-snug">
+                  <p className="font-serif-editorial text-sm sm:text-base text-[#FAF7F2] font-medium leading-snug">
                     {m.name}
                   </p>
                   <p className="text-[10px] font-mono-tech text-[#787774] mt-0.5">
@@ -164,20 +163,32 @@ export function LightStudiesSection() {
         </div>
 
         {/* Interactive Showcase Box: Image + Photometric Telemetry */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch rounded-3xl border border-white/10 bg-[#121215] overflow-hidden p-6 sm:p-8 reveal-scale delay-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch rounded-3xl border border-white/10 bg-[#121215] overflow-hidden p-4 sm:p-6 md:p-8 reveal-scale delay-200">
           {/* Left: Dynamic Visual with smooth transition */}
-          <div className="lg:col-span-7 relative min-h-[380px] sm:min-h-[480px] rounded-2xl overflow-hidden border border-white/[0.08]">
-            <Image
-              src={activeMood.image}
-              alt={activeMood.name}
-              fill
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              className="object-cover transition-opacity duration-700 ease-in-out"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-70" />
+          <div 
+            className="lg:col-span-7 relative min-h-[260px] sm:min-h-[380px] lg:min-h-[480px] rounded-2xl overflow-hidden border border-white/[0.08] transition-shadow duration-700"
+            style={{ boxShadow: `0 0 60px ${activeMood.colorHex}20` }}
+          >
+            {moods.map((m) => (
+              <div
+                key={m.id}
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                  activeMood.id === m.id ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                }`}
+              >
+                <Image
+                  src={m.image}
+                  alt={m.name}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+            <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-70 pointer-events-none" />
 
             {/* Live Kelvin & Lux Badge */}
-            <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-xs font-mono-tech">
+            <div className="absolute bottom-5 left-5 right-5 z-30 flex items-center justify-between text-xs font-mono-tech">
               <span className="px-3 py-1.5 rounded-full bg-[#080808]/80 backdrop-blur-md border border-white/10 text-[#FAF7F2] flex items-center gap-2">
                 <span
                   className="w-2 h-2 rounded-full"

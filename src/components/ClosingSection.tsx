@@ -7,7 +7,7 @@ import { InstagramIcon } from "./InstagramIcon";
 
 export function ClosingSection() {
   return (
-    <section className="relative min-h-[750px] flex items-center justify-center overflow-hidden bg-[#080808] border-t border-white/[0.06] select-none">
+    <section className="relative min-h-[540px] sm:min-h-[750px] flex items-center justify-center overflow-hidden bg-[#080808] border-t border-white/[0.06] select-none py-16 sm:py-24">
       {/* Background Cinematic Architectural Image */}
       <div className="absolute inset-0">
         <Image
@@ -23,29 +23,29 @@ export function ClosingSection() {
       </div>
 
       {/* Warm Ambient Core Glow */}
-      <div className="absolute w-[600px] h-[600px] rounded-full bg-[#D89F54]/15 blur-[160px] pointer-events-none" />
+      <div className="absolute w-[320px] sm:w-[600px] h-[320px] sm:h-[600px] rounded-full bg-[#D89F54]/15 blur-[100px] sm:blur-[160px] pointer-events-none" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-10 text-center py-24 reveal-on-scroll">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-[#080808]/70 backdrop-blur-md text-[10px] font-mono-tech tracking-[0.25em] text-[#D89F54] uppercase mb-8">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 md:px-10 text-center py-12 sm:py-24 reveal-on-scroll">
+        <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full border border-white/10 bg-[#080808]/70 backdrop-blur-md text-[10px] font-mono-tech tracking-[0.25em] text-[#D89F54] uppercase mb-6 sm:mb-8">
           <span className="w-1.5 h-1.5 rounded-full bg-[#D89F54]" />
           <span>CLOSING MANIFESTO</span>
         </div>
 
-        <h2 className="font-serif-editorial text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-[#FAF7F2] font-normal tracking-tight leading-[0.95]">
+        <h2 className="font-serif-editorial text-3xl sm:text-6xl md:text-8xl lg:text-9xl text-[#FAF7F2] font-normal tracking-tight leading-[0.98]">
           Good design is seen. <br />
           <span className="italic text-[#E5E3DD]">Great design is felt.</span>
         </h2>
 
-        <p className="mt-8 text-base sm:text-xl text-[#B5B3AC] max-w-2xl mx-auto font-light leading-relaxed">
+        <p className="mt-5 sm:mt-8 text-sm sm:text-lg md:text-xl text-[#B5B3AC] max-w-2xl mx-auto font-light leading-relaxed">
           Whether you are planning a private architectural sanctuary, a cultural gallery, or an experimental hospitality atmosphere — let us calibrate the relationship between concrete, shadow, and light.
         </p>
 
         {/* Call to Action Buttons */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+        <div className="mt-8 sm:mt-12 flex flex-wrap items-center justify-center gap-3 sm:gap-6">
           <Link
             href="/projects"
-            className="px-8 py-4 rounded-full bg-[#FAF7F2] text-[#080808] font-mono-tech text-xs uppercase tracking-widest font-semibold hover:bg-[#D89F54] hover:text-white transition-all shadow-xl hover:shadow-[#D89F54]/25 flex items-center gap-2 group"
+            className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#FAF7F2] text-[#080808] font-mono-tech text-xs uppercase tracking-widest font-semibold hover:bg-[#D89F54] hover:text-white active:scale-95 transition-all shadow-xl hover:shadow-[#D89F54]/25 flex items-center gap-2 group"
           >
             <span>Explore Portfolio Archive</span>
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -55,8 +55,7 @@ export function ClosingSection() {
             href="https://www.instagram.com/dontcallitwork/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-4 rounded-full border border-white/20 hover:border-[#D89F54] bg-[#121213]/60 backdrop-blur-md text-[#FAF7F2] font-mono-tech text-xs uppercase tracking-widest hover:bg-[#D89F54]/10 transition-all flex items-center gap-2 group"
-            data-cursor="INSTAGRAM"
+            className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full border border-white/20 hover:border-[#D89F54] bg-[#121213]/60 backdrop-blur-md text-[#FAF7F2] font-mono-tech text-xs uppercase tracking-widest hover:bg-[#D89F54]/10 active:scale-95 transition-all flex items-center gap-2 group"
           >
             <InstagramIcon className="w-4 h-4 text-[#D89F54]" />
             <span>Follow @dontcallitwork</span>

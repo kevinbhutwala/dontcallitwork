@@ -37,12 +37,12 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative w-full h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-[#080808] select-none">
+    <section className="relative w-full min-h-[100svh] min-h-[100dvh] h-[100dvh] flex items-center justify-center overflow-hidden bg-[#080808] select-none">
       {/* Background Architectural Image Container with Kinetic Scroll Parallax */}
       <div
-        className="absolute inset-0 transition-transform duration-300 ease-out will-change-transform scale-110"
+        className="absolute inset-0 transition-transform duration-300 ease-out will-change-transform scale-105 sm:scale-110"
         style={{
-          transform: `translate3d(${mouseOffset.x * -1}px, calc(${mouseOffset.y * -1}px + ${scrollY * 0.28}px), 0)`,
+          transform: `translate3d(${mouseOffset.x * -0.5}px, calc(${mouseOffset.y * -0.5}px + ${scrollY * 0.2}px), 0)`,
         }}
       >
         <Image
@@ -52,7 +52,7 @@ export function HeroSection() {
           priority
           sizes="100vw"
           className={`object-cover object-center transition-all duration-1000 ${
-            stage < 2 ? "scale-110 blur-sm" : "scale-100 blur-0"
+            stage < 2 ? "scale-105 blur-sm" : "scale-100 blur-0"
           } ${
             heroBrightness === "nocturne"
               ? "brightness-[0.45] contrast-125"
@@ -63,12 +63,12 @@ export function HeroSection() {
         />
 
         {/* Cinematic Vignette & Shadow Falloff */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/40 to-[#080808]/80 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/70 via-transparent to-[#080808]/70 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/40 to-[#080808]/85 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/80 via-transparent to-[#080808]/80 pointer-events-none" />
 
         {/* Dynamic Warm Tungsten Light Beam / Spill */}
         <div
-          className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full blur-[140px] pointer-events-none transition-all duration-1000 ${
+          className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-[340px] h-[340px] sm:w-[700px] sm:h-[700px] rounded-full blur-[90px] sm:blur-[140px] pointer-events-none transition-all duration-1000 ${
             stage === 2 ? "opacity-70 scale-100" : "opacity-0 scale-50"
           }`}
           style={{
@@ -78,7 +78,7 @@ export function HeroSection() {
                 : heroBrightness === "dusk"
                 ? "radial-gradient(circle, rgba(230, 180, 120, 0.35) 0%, rgba(8, 8, 8, 0) 70%)"
                 : "radial-gradient(circle, rgba(245, 198, 119, 0.45) 0%, rgba(8, 8, 8, 0) 70%)",
-            transform: `translate3d(calc(-50% + ${mouseOffset.x * 2}px), ${mouseOffset.y * 2}px, 0)`,
+            transform: `translate3d(calc(-50% + ${mouseOffset.x * 1.2}px), ${mouseOffset.y * 1.2}px, 0)`,
           }}
         />
       </div>
@@ -102,70 +102,68 @@ export function HeroSection() {
       </div>
 
       {/* Hero Content Overlay */}
-      <div className="relative z-30 max-w-7xl mx-auto px-6 md:px-10 w-full pt-20">
+      <div className="relative z-30 max-w-7xl mx-auto px-5 sm:px-8 md:px-10 w-full pt-16 sm:pt-20">
         <div
           className={`transition-all duration-1000 ease-out transform ${
             stage === 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
           style={{
-            transform: `translate3d(0, ${scrollY * 0.16}px, 0)`,
+            transform: `translate3d(0, ${scrollY * 0.12}px, 0)`,
             opacity: Math.max(0, 1 - scrollY / 650),
           }}
         >
           {/* Top Architectural Metadata */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-6 mb-8 text-[11px] font-mono-tech tracking-widest text-[#D89F54] uppercase">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-6 mb-5 sm:mb-8 text-[10px] sm:text-[11px] font-mono-tech tracking-widest text-[#D89F54] uppercase">
             <span className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D89F54] animate-pulse" />
               STUDIO MANIFESTO 01
             </span>
             <span className="hidden sm:inline text-white/30">/</span>
             <span className="hidden sm:inline text-[#C9A063]">BETWEEN CONCRETE AND LIGHT</span>
-            <span className="hidden sm:inline text-white/30">/</span>
+            <span className="text-white/30">/</span>
             <span className="text-[#FAF7F2]">45.4642° N, 9.1900° E</span>
           </div>
 
           {/* Main Statement (Editorial Serif) */}
-          <h1 className="font-serif-editorial text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tight text-[#FAF7F2] font-normal leading-[1.08] max-w-5xl drop-shadow-lg">
-            We don’t design spaces. <br className="hidden sm:block" />
+          <h1 className="font-serif-editorial text-[32px] sm:text-5xl md:text-7xl lg:text-8xl tracking-tight text-[#FAF7F2] font-normal leading-[1.08] max-w-5xl drop-shadow-lg">
+            We don’t design spaces. <br className="hidden xs:block sm:block" />
             <span className="italic font-light text-[#FAF7F2]">
               We design how they feel.
             </span>
           </h1>
 
           {/* Sub-Manifesto */}
-          <p className="mt-8 text-base sm:text-xl text-[#E8E6DF] max-w-2xl font-light leading-relaxed drop-shadow-md">
+          <p className="mt-5 sm:mt-8 text-sm sm:text-lg md:text-xl text-[#E8E6DF] max-w-2xl font-light leading-relaxed drop-shadow-md">
             Architecture is not just about structure. Lighting is not just about illumination. 
             Together, they choreograph shadow, texture, and emotional consciousness.
           </p>
 
           {/* Action Callouts & Interactive Mood Controls */}
-          <div className="mt-12 flex flex-wrap items-center gap-4 sm:gap-6">
+          <div className="mt-8 sm:mt-12 flex flex-wrap items-center gap-3 sm:gap-5">
             <Link
               href="/#spaces"
-              className="px-6 py-3.5 rounded-full bg-[#FAF7F2] text-[#080808] font-mono-tech text-xs uppercase tracking-widest font-semibold hover:bg-[#D89F54] hover:text-white transition-all shadow-lg hover:shadow-[#D89F54]/20"
-              data-cursor="DISCOVER"
+              className="px-5 sm:px-6 py-3 sm:py-3.5 rounded-full bg-[#FAF7F2] text-[#080808] font-mono-tech text-xs uppercase tracking-widest font-semibold hover:bg-[#D89F54] hover:text-white active:scale-95 transition-all shadow-lg hover:shadow-[#D89F54]/20"
             >
               Explore Spaces
             </Link>
 
             <Link
               href="/light-room"
-              className="flex items-center gap-2 px-6 py-3.5 rounded-full border border-white/20 hover:border-[#D89F54] bg-[#121213]/60 backdrop-blur-md text-[#FAF7F2] font-mono-tech text-xs uppercase tracking-widest hover:bg-[#D89F54]/10 transition-all"
-              data-cursor="3D LAB"
+              className="flex items-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 rounded-full border border-white/20 hover:border-[#D89F54] bg-[#121213]/70 backdrop-blur-md text-[#FAF7F2] font-mono-tech text-xs uppercase tracking-widest hover:bg-[#D89F54]/10 active:scale-95 transition-all"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#D89F54]" />
               <span>Enter The Light Room</span>
             </Link>
 
-            {/* Real-time Hero Lighting Shift Toggle */}
-            <div className="hidden md:flex items-center gap-1.5 p-1 rounded-full border border-white/10 bg-[#121213]/80 backdrop-blur-md text-[10px] font-mono-tech text-[#A3A29E]">
-              <span className="px-2 text-[#787774] uppercase tracking-wider">Atmosphere:</span>
+            {/* Real-time Hero Lighting Shift Toggle - Now fully accessible on mobile! */}
+            <div className="flex items-center gap-1 p-1 rounded-full border border-white/10 bg-[#121213]/85 backdrop-blur-md text-[10px] font-mono-tech text-[#A3A29E]">
+              <span className="hidden sm:inline px-2 text-[#787774] uppercase tracking-wider">Mood:</span>
               <button
                 onClick={() => setHeroBrightness("nocturne")}
-                className={`px-2.5 py-1 rounded-full transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded-full transition-all active:scale-95 ${
                   heroBrightness === "nocturne"
-                    ? "bg-white/10 text-[#FAF7F2] font-semibold"
-                    : "hover:text-white"
+                    ? "bg-white/15 text-[#FAF7F2] font-semibold"
+                    : "hover:text-white text-[#9B9890]"
                 }`}
                 title="Deep Nocturne (2200K)"
               >
@@ -174,10 +172,10 @@ export function HeroSection() {
               </button>
               <button
                 onClick={() => setHeroBrightness("amber")}
-                className={`px-2.5 py-1 rounded-full transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded-full transition-all active:scale-95 ${
                   heroBrightness === "amber"
-                    ? "bg-[#D89F54]/20 text-[#D89F54] font-semibold"
-                    : "hover:text-white"
+                    ? "bg-[#D89F54]/25 text-[#D89F54] font-semibold"
+                    : "hover:text-white text-[#9B9890]"
                 }`}
                 title="Warm Tungsten (2700K)"
               >
@@ -185,10 +183,10 @@ export function HeroSection() {
               </button>
               <button
                 onClick={() => setHeroBrightness("dusk")}
-                className={`px-2.5 py-1 rounded-full transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded-full transition-all active:scale-95 ${
                   heroBrightness === "dusk"
-                    ? "bg-white/10 text-[#FAF7F2] font-semibold"
-                    : "hover:text-white"
+                    ? "bg-white/15 text-[#FAF7F2] font-semibold"
+                    : "hover:text-white text-[#9B9890]"
                 }`}
                 title="Dusk Ambient (3500K)"
               >
@@ -200,8 +198,11 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Elegant Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-[10px] font-mono-tech uppercase tracking-[0.25em] text-[#787774] animate-bounce duration-1000">
+      {/* Elegant Scroll Indicator with Safe Area Bottom Offset */}
+      <div
+        className="absolute left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 text-[9px] sm:text-[10px] font-mono-tech uppercase tracking-[0.25em] text-[#787774] animate-bounce duration-1000 pointer-events-none"
+        style={{ bottom: "max(1.25rem, calc(env(safe-area-inset-bottom) + 0.5rem))" }}
+      >
         <span>Scroll to enter</span>
         <ArrowDown className="w-3.5 h-3.5 text-[#D89F54]" />
       </div>

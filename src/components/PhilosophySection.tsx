@@ -37,41 +37,40 @@ export function PhilosophySection() {
   ];
 
   return (
-    <section className="relative py-28 md:py-36 bg-[#080808] border-t border-white/[0.06] overflow-hidden">
+    <section className="relative py-20 sm:py-28 md:py-36 bg-[#080808] border-t border-white/[0.06] overflow-hidden">
       {/* Subtle Background Lighting Accent */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 rounded-full bg-[#D89F54]/5 blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 sm:w-96 h-64 sm:h-96 rounded-full bg-[#D89F54]/5 blur-[120px] sm:blur-[160px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
         {/* Section Header */}
-        <div className="mb-20 reveal-on-scroll">
-          <p className="text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-4">
+        <div className="mb-12 sm:mb-20 reveal-on-scroll">
+          <p className="text-[10px] sm:text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3 sm:mb-4">
             02 // The Studio Philosophy
           </p>
-          <h2 className="font-serif-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#FAF7F2] font-normal tracking-tight leading-[1.05] max-w-4xl">
+          <h2 className="font-serif-editorial text-3xl sm:text-6xl md:text-7xl lg:text-8xl text-[#FAF7F2] font-normal tracking-tight leading-[1.05] max-w-4xl">
             A space is never <br />
             <span className="italic text-[#C9A063]">just a space.</span>
           </h2>
-          <p className="mt-8 text-lg sm:text-2xl text-[#9B9890] max-w-3xl font-light leading-relaxed">
+          <p className="mt-5 sm:mt-8 text-base sm:text-xl md:text-2xl text-[#9B9890] max-w-3xl font-light leading-relaxed">
             Light is not an afterthought added to illuminate walls. Light is the primary sculpting material that defines whether a room feels like a sterile corridor or a sacred sanctuary.
           </p>
         </div>
 
         {/* 3 Interactive Editorial Pillars */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left: Pillar Selectors */}
-          <div className="lg:col-span-6 space-y-6 reveal-on-scroll delay-100">
+          <div className="lg:col-span-6 space-y-4 sm:space-y-6 reveal-on-scroll delay-100">
             {pillars.map((pillar, idx) => (
               <div
                 key={idx}
                 onClick={() => setActivePillar(idx)}
-                className={`p-6 sm:p-8 rounded-2xl border transition-all duration-500 cursor-pointer ${
+                className={`p-5 sm:p-7 md:p-8 rounded-2xl border transition-all duration-300 cursor-pointer active:scale-[0.99] ${
                   activePillar === idx
                     ? "bg-[#141416] border-[#D89F54]/40 shadow-xl shadow-[#D89F54]/5"
                     : "bg-[#0E0E10]/50 border-white/[0.06] hover:border-white/20 hover:bg-[#121214]"
                 }`}
-                data-cursor="EXPAND"
               >
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
                   <span className="font-mono-tech text-xs tracking-widest text-[#D89F54]">
                     {pillar.num}
                   </span>
@@ -79,13 +78,13 @@ export function PhilosophySection() {
                     Principle {idx + 1} of 3
                   </span>
                 </div>
-                <h3 className="font-serif-editorial text-2xl sm:text-3xl text-[#FAF7F2] font-normal mb-2">
+                <h3 className="font-serif-editorial text-xl sm:text-2xl md:text-3xl text-[#FAF7F2] font-normal mb-1.5 sm:mb-2">
                   {pillar.title}
                 </h3>
-                <p className="text-sm font-serif-editorial italic text-[#C9A063] mb-3">
+                <p className="text-xs sm:text-sm font-serif-editorial italic text-[#C9A063] mb-2 sm:mb-3">
                   “{pillar.tagline}”
                 </p>
-                <p className="text-xs sm:text-sm text-[#9B9890] leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#9B9890] leading-relaxed font-light">
                   {pillar.description}
                 </p>
               </div>
@@ -94,7 +93,7 @@ export function PhilosophySection() {
 
           {/* Right: Immersive Visual & Photometric Metric */}
           <div className="lg:col-span-6 relative reveal-scale delay-200">
-            <div className="relative h-[480px] sm:h-[560px] w-full rounded-2xl overflow-hidden border border-white/10 group">
+            <div className="relative h-[320px] sm:h-[440px] lg:h-[560px] w-full rounded-2xl overflow-hidden border border-white/10 group">
               <Image
                 src={pillars[activePillar].image}
                 alt={pillars[activePillar].title}
@@ -105,11 +104,11 @@ export function PhilosophySection() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/20 to-transparent" />
 
               {/* Inset Metric Card */}
-              <div className="absolute bottom-6 left-6 right-6 p-6 rounded-xl bg-[#080808]/85 backdrop-blur-md border border-white/10">
+              <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 p-4 sm:p-6 rounded-xl bg-[#080808]/85 backdrop-blur-md border border-white/10">
                 <p className="text-[10px] font-mono-tech uppercase tracking-widest text-[#D89F54] mb-1">
                   OBSERVATION & METRIC
                 </p>
-                <p className="font-serif-editorial text-lg sm:text-xl text-[#FAF7F2] italic">
+                <p className="font-serif-editorial text-sm sm:text-lg md:text-xl text-[#FAF7F2] italic">
                   {pillars[activePillar].statistic}
                 </p>
               </div>

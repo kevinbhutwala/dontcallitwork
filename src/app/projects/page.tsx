@@ -6,7 +6,7 @@ import Link from "next/link";
 import { PROJECTS, Project } from "@/data/projects";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { ArrowUpRight, Filter, Grid, List, Search } from "lucide-react";
+import { ArrowUpRight, Grid, List, Search } from "lucide-react";
 
 export default function ProjectsPage() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -29,10 +29,10 @@ export default function ProjectsPage() {
     <div className="min-h-screen bg-[#080808] text-[#F4F1EA]">
       <Navigation />
 
-      <main className="pt-32 pb-24 max-w-7xl mx-auto px-6 md:px-10">
+      <main className="pt-24 sm:pt-32 pb-16 sm:pb-24 max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
         {/* Header Section */}
-        <div className="mb-16 reveal-on-scroll">
-          <div className="flex items-center gap-3 text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
+        <div className="mb-10 sm:mb-16 reveal-on-scroll">
+          <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
             <span>Portfolio Archive</span>
             <span className="text-white/20">/</span>
             <span className="text-xs bg-[#D89F54]/10 text-[#D89F54] border border-[#D89F54]/30 px-2 py-0.5 rounded-full">
@@ -40,24 +40,24 @@ export default function ProjectsPage() {
             </span>
           </div>
 
-          <h1 className="font-serif-editorial text-5xl sm:text-7xl md:text-8xl text-[#FAF7F2] font-normal tracking-tight">
+          <h1 className="font-serif-editorial text-4xl sm:text-7xl md:text-8xl text-[#FAF7F2] font-normal tracking-tight">
             Selected Spaces
           </h1>
 
-          <p className="mt-6 text-base sm:text-xl text-[#9B9890] max-w-3xl font-light leading-relaxed">
+          <p className="mt-4 sm:mt-6 text-sm sm:text-lg md:text-xl text-[#9B9890] max-w-3xl font-light leading-relaxed">
             A curated portfolio of architectural interiors, lighting choreographies, and spatial investigations exploring the sensory threshold between concrete mass and illumination.
           </p>
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-white/[0.08] mb-12 reveal-on-scroll delay-100">
-          {/* Categories */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none text-xs font-mono-tech">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 pb-6 sm:pb-8 border-b border-white/[0.08] mb-8 sm:mb-12 reveal-on-scroll delay-100">
+          {/* Categories with smooth iOS horizontal scroll */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 ios-scroll-x text-xs font-mono-tech -mx-4 px-4 sm:mx-0 sm:px-0">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                className={`px-3.5 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all shrink-0 active:scale-95 ${
                   activeCategory === cat
                     ? "bg-[#FAF7F2] text-[#080808] font-semibold"
                     : "bg-[#141416] text-[#A3A29E] hover:text-[#FAF7F2] border border-white/[0.06]"
@@ -69,7 +69,7 @@ export default function ProjectsPage() {
           </div>
 
           {/* Search & View Switcher */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
             <div className="relative flex-1 sm:w-64">
               <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#787774]" />
               <input
@@ -77,50 +77,52 @@ export default function ProjectsPage() {
                 placeholder="Search material, Kelvin, city..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#121214] border border-white/10 rounded-full pl-9 pr-4 py-2 text-xs font-mono-tech text-[#FAF7F2] placeholder-[#64625D] focus:outline-none focus:border-[#D89F54]"
+                className="w-full bg-[#121214] border border-white/10 rounded-full pl-9 pr-4 py-2 text-base sm:text-xs min-h-[40px] font-mono-tech text-[#FAF7F2] placeholder-[#64625D] focus:outline-none focus:border-[#D89F54]"
               />
             </div>
 
-            <div className="flex items-center p-1 rounded-full border border-white/10 bg-[#121214]">
+            <div className="flex items-center p-1 rounded-full border border-white/10 bg-[#121214] shrink-0">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-1.5 rounded-full transition-colors ${
+                className={`p-2 rounded-full transition-colors active:scale-95 ${
                   viewMode === "grid" ? "bg-white/15 text-[#FAF7F2]" : "text-[#787774]"
                 }`}
                 title="Grid View"
+                aria-label="Grid View"
               >
-                <Grid className="w-3.5 h-3.5" />
+                <Grid className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setViewMode("table")}
-                className={`p-1.5 rounded-full transition-colors ${
+                className={`p-2 rounded-full transition-colors active:scale-95 ${
                   viewMode === "table" ? "bg-white/15 text-[#FAF7F2]" : "text-[#787774]"
                 }`}
                 title="Index Table View"
+                aria-label="Index Table View"
               >
-                <List className="w-3.5 h-3.5" />
+                <List className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
 
         {/* Results Counter */}
-        <div className="text-xs font-mono-tech text-[#787774] mb-8">
+        <div className="text-[11px] sm:text-xs font-mono-tech text-[#787774] mb-6 sm:mb-8">
           Showing {filteredProjects.length} of {PROJECTS.length} Architectural Concept Studies
         </div>
 
         {/* View Mode 1: Asymmetric Grid */}
         {viewMode === "grid" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredProjects.map((project: Project, idx: number) => {
               const delayClass = (idx % 3 === 0) ? "delay-100" : (idx % 3 === 1) ? "delay-200" : "delay-300";
               return (
                 <Link
                   key={project.slug}
                   href={`/projects/${project.slug}`}
-                  className={`group relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#121213] flex flex-col justify-end transition-all duration-500 hover:border-[#D89F54]/50 reveal-on-scroll ${delayClass}`}
+                  className={`group relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#121213] flex flex-col justify-end transition-all duration-500 hover:border-[#D89F54]/50 active:scale-[0.99] reveal-on-scroll ${delayClass}`}
                 >
-                <div className="relative w-full h-[380px] overflow-hidden">
+                <div className="relative w-full h-[320px] sm:h-[380px] overflow-hidden">
                   <Image
                     src={project.heroImage}
                     alt={project.title}
@@ -141,22 +143,22 @@ export default function ProjectsPage() {
                   </div>
 
                   {/* Bottom Text */}
-                  <div className="absolute bottom-5 left-5 right-5">
+                  <div className="absolute bottom-4 sm:bottom-5 left-4 sm:left-5 right-4 sm:right-5">
                     <div className="flex items-center gap-2 text-[10px] font-mono-tech text-[#A3A29E] mb-1">
                       <span>{project.location}</span>
                       <span>·</span>
                       <span>{project.year}</span>
                     </div>
 
-                    <h2 className="font-serif-editorial text-2xl text-[#FAF7F2] font-normal leading-tight group-hover:text-[#D89F54] transition-colors">
+                    <h2 className="font-serif-editorial text-xl sm:text-2xl text-[#FAF7F2] font-normal leading-tight group-hover:text-[#D89F54] transition-colors">
                       {project.title}
                     </h2>
 
-                    <p className="mt-2 text-xs text-[#9B9890] line-clamp-2 font-light">
+                    <p className="mt-1.5 text-xs text-[#9B9890] line-clamp-2 font-light">
                       {project.subtitle}
                     </p>
 
-                    <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono-tech text-[#D89F54]">
+                    <div className="mt-3 sm:mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono-tech text-[#D89F54]">
                       <span>View Specifications</span>
                       <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -168,10 +170,10 @@ export default function ProjectsPage() {
         </div>
         )}
 
-        {/* View Mode 2: Minimalist Photometric Index Table */}
+        {/* View Mode 2: Minimalist Photometric Index Table with iOS Horizontal Scroll */}
         {viewMode === "table" && (
-          <div className="rounded-2xl border border-white/10 overflow-hidden bg-[#101012]">
-            <table className="w-full text-left border-collapse text-xs font-mono-tech">
+          <div className="rounded-2xl border border-white/10 overflow-x-auto ios-scroll-x bg-[#101012]">
+            <table className="w-full text-left border-collapse text-xs font-mono-tech min-w-[500px]">
               <thead>
                 <tr className="border-b border-white/10 bg-[#141418] text-[#787774] uppercase text-[10px] tracking-wider">
                   <th className="py-4 px-6">Project Title</th>

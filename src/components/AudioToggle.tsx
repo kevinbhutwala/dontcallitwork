@@ -10,13 +10,20 @@ export function AudioToggle() {
   const osc1Ref = useRef<OscillatorNode | null>(null);
   const osc2Ref = useRef<OscillatorNode | null>(null);
 
-  const toggleAudio = () => {
+  const toggleAudio = async () => {
     if (!isPlaying) {
       // Start ambient architectural acoustic hum
       try {
-        const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        const AudioContextClass =
+          window.AudioContext ||
+          (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
         const ctx = new AudioContextClass();
         audioCtxRef.current = ctx;
+
+        // iOS Safari AudioContext unlock: strictly resume context on user gesture
+        if (ctx.state === "suspended") {
+          await ctx.resume();
+        }
 
         const masterGain = ctx.createGain();
         masterGain.gain.setValueAtTime(0.001, ctx.currentTime);
@@ -66,9 +73,9 @@ export function AudioToggle() {
   return (
     <button
       onClick={toggleAudio}
-      className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 hover:border-[#D89F54]/40 bg-[#121213]/60 backdrop-blur-md text-[11px] font-mono-tech tracking-wider text-[#A3A29E] hover:text-[#FAF7F2] transition-all duration-300"
+      className="flex items-center gap-2 px-3 py-2 min-h-[40px] rounded-full border border-white/10 hover:border-[#D89F54]/40 bg-[#121213]/80 backdrop-blur-md text-[11px] font-mono-tech tracking-wider text-[#A3A29E] hover:text-[#FAF7F2] active:scale-95 transition-all duration-200"
       title={isPlaying ? "Mute architectural ambience" : "Enable atmospheric soundscape"}
-      data-cursor="SOUND"
+      aria-label={isPlaying ? "Mute architectural ambience" : "Enable atmospheric soundscape"}
     >
       {isPlaying ? (
         <>

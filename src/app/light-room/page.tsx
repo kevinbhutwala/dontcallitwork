@@ -11,24 +11,24 @@ export default function LightRoomPage() {
     <div className="min-h-screen bg-[#080808] text-[#F4F1EA]">
       <Navigation />
 
-      <main className="pt-32 pb-24 max-w-7xl mx-auto px-6 md:px-10">
+      <main className="pt-24 sm:pt-32 pb-16 sm:pb-24 max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
         {/* Intro Header */}
-        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="mb-8 sm:mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6">
           <div>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-xs font-mono-tech uppercase tracking-widest text-[#D89F54] hover:text-[#FAF7F2] transition-colors mb-4 group"
+              className="inline-flex items-center gap-2 text-xs font-mono-tech uppercase tracking-widest text-[#D89F54] hover:text-[#FAF7F2] active:scale-95 transition-all mb-3 sm:mb-4 group"
             >
               <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
               <span>Return to Studio</span>
             </Link>
 
-            <div className="flex items-center gap-2 text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
+            <div className="flex items-center gap-2 text-[10px] sm:text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-2 sm:mb-3">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Signature Interactive Installation</span>
             </div>
 
-            <h1 className="font-serif-editorial text-4xl sm:text-6xl md:text-7xl text-[#FAF7F2] font-normal tracking-tight">
+            <h1 className="font-serif-editorial text-3xl sm:text-6xl md:text-7xl text-[#FAF7F2] font-normal tracking-tight">
               The Light Room
             </h1>
           </div>
@@ -39,7 +39,7 @@ export default function LightRoomPage() {
         </div>
 
         {/* 3D WebGL Simulation Chamber */}
-        <div className="mb-16">
+        <div className="mb-12 sm:mb-16">
           <LightRoom3D isStandalone={true} />
         </div>
 

@@ -61,26 +61,44 @@ export function ProcessSection() {
   ];
 
   return (
-    <section id="process" className="relative py-28 md:py-36 bg-[#0B0B0D] border-t border-white/[0.06] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
+    <section id="process" className="relative py-20 sm:py-28 md:py-36 bg-[#0B0B0D] border-t border-white/[0.06] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
         {/* Section Header */}
-        <div className="mb-20 reveal-on-scroll">
-          <p className="text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
+        <div className="mb-12 sm:mb-20 reveal-on-scroll">
+          <p className="text-[10px] sm:text-[11px] font-mono-tech uppercase tracking-[0.3em] text-[#D89F54] mb-3">
             06 // The Architectural Process
           </p>
-          <h2 className="font-serif-editorial text-4xl sm:text-6xl md:text-7xl text-[#FAF7F2] font-normal tracking-tight">
+          <h2 className="font-serif-editorial text-3xl sm:text-6xl md:text-7xl text-[#FAF7F2] font-normal tracking-tight">
             From Spatial Concept <br />
             <span className="italic text-[#E5E3DD]">to Living Atmosphere</span>
           </h2>
-          <p className="mt-6 text-base sm:text-lg text-[#9B9890] max-w-2xl font-light">
+          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-[#9B9890] max-w-2xl font-light">
             A methodical architectural narrative moving from solar physics and volumetric shadow carving to the calibration of human emotion.
           </p>
         </div>
 
+        {/* Mobile Horizontal Stepper Tabs (Visible only on < lg screens) */}
+        <div className="lg:hidden flex items-center gap-2 overflow-x-auto pb-4 mb-6 ios-scroll-x text-xs font-mono-tech -mx-4 px-4">
+          {steps.map((s, idx) => (
+            <button
+              key={s.step}
+              onClick={() => setActiveStep(idx)}
+              className={`px-4 py-2.5 rounded-full whitespace-nowrap transition-all flex items-center gap-2 shrink-0 active:scale-95 ${
+                activeStep === idx
+                  ? "bg-[#D89F54] text-[#080808] font-bold shadow-lg shadow-[#D89F54]/15"
+                  : "bg-[#141416] text-[#A3A29E] border border-white/[0.06]"
+              }`}
+            >
+              <span>{s.step}.</span>
+              <span>{s.title.split("&")[0].split(" ")[0]}</span>
+            </button>
+          ))}
+        </div>
+
         {/* 5-Step Narrative Sequence */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Left Column: Progress Timeline Steps */}
-          <div className="lg:col-span-5 space-y-3 reveal-on-scroll delay-100">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Desktop Left Column: Progress Timeline Steps */}
+          <div className="hidden lg:block lg:col-span-5 space-y-3 reveal-on-scroll delay-100">
             {steps.map((s, idx) => {
               const Icon = s.icon;
               const isSelected = activeStep === idx;
@@ -88,12 +106,11 @@ export function ProcessSection() {
                 <div
                   key={s.step}
                   onClick={() => setActiveStep(idx)}
-                  className={`p-5 sm:p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                  className={`p-5 sm:p-6 rounded-2xl border transition-all duration-300 cursor-pointer active:scale-[0.99] ${
                     isSelected
                       ? "bg-[#161619] border-[#D89F54] shadow-xl shadow-[#D89F54]/5 translate-x-2"
                       : "bg-[#101012]/50 border-white/[0.06] hover:border-white/20 hover:bg-[#141416]"
                   }`}
-                  data-cursor="SELECT STEP"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-mono-tech text-xs tracking-widest text-[#D89F54]">
@@ -116,10 +133,10 @@ export function ProcessSection() {
             })}
           </div>
 
-          {/* Right Column: Visual Stage with Details */}
-          <div className="lg:col-span-7 sticky top-28 reveal-scale delay-200">
-            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#121215] p-6 sm:p-8">
-              <div className="relative h-[320px] sm:h-[400px] w-full rounded-2xl overflow-hidden mb-6 border border-white/10">
+          {/* Right Column (Primary Stage on Mobile & Desktop): Visual Stage with Details */}
+          <div className="lg:col-span-7 lg:sticky lg:top-28 reveal-scale delay-100">
+            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#121215] p-4 sm:p-6 md:p-8">
+              <div className="relative h-[240px] sm:h-[340px] md:h-[400px] w-full rounded-2xl overflow-hidden mb-5 sm:mb-6 border border-white/10">
                 <Image
                   src={steps[activeStep].image}
                   alt={steps[activeStep].title}
@@ -130,34 +147,37 @@ export function ProcessSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-80" />
 
                 {/* Step Marker Badge */}
-                <div className="absolute top-5 left-5 px-3 py-1.5 rounded-full bg-[#080808]/80 backdrop-blur-md border border-white/10 text-xs font-mono-tech text-[#FAF7F2]">
+                <div className="absolute top-4 sm:top-5 left-4 sm:left-5 px-3 py-1 rounded-full bg-[#080808]/85 backdrop-blur-md border border-white/10 text-[11px] sm:text-xs font-mono-tech text-[#FAF7F2]">
                   STAGE {steps[activeStep].step} OF 05
                 </div>
               </div>
 
               {/* Narrative Content */}
               <div>
-                <h3 className="font-serif-editorial text-3xl sm:text-4xl text-[#FAF7F2] font-normal mb-3">
+                <h3 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl text-[#FAF7F2] font-normal mb-2 sm:mb-3">
                   {steps[activeStep].title}
                 </h3>
-                <p className="text-sm sm:text-base text-[#B5B3AC] leading-relaxed mb-6 font-light">
+                <p className="text-xs font-serif-editorial italic text-[#C9A063] mb-3 sm:mb-4">
+                  {steps[activeStep].tagline}
+                </p>
+                <p className="text-xs sm:text-sm md:text-base text-[#B5B3AC] leading-relaxed mb-5 sm:mb-6 font-light">
                   {steps[activeStep].summary}
                 </p>
 
                 {/* Deliverable Box */}
-                <div className="p-4 rounded-xl bg-[#080808]/80 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono-tech">
-                  <span className="text-[#787774] uppercase tracking-wider">
+                <div className="p-3.5 sm:p-4 rounded-xl bg-[#080808]/80 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 text-[11px] sm:text-xs font-mono-tech">
+                  <span className="text-[#787774] uppercase tracking-wider shrink-0">
                     Core Output:
                   </span>
-                  <span className="text-[#D89F54] font-medium text-right">
+                  <span className="text-[#D89F54] font-medium sm:text-right">
                     {steps[activeStep].deliverable}
                   </span>
                 </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
     </section>
   );
 }

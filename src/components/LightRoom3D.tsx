@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import * as THREE from "three";
-import { Sparkles, RotateCcw, Sliders, AlertCircle } from "lucide-react";
+import { RotateCcw, AlertCircle } from "lucide-react";
 
 // Convert Kelvin temperature to RGB
 function kelvinToRGB(kelvin: number): THREE.Color {
@@ -136,6 +136,8 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
   const [azimuth, setAzimuth] = useState<number>(-40); // degrees
   const [ambientIntensity, setAmbientIntensity] = useState<number>(0.25);
   const [activePreset, setActivePreset] = useState<string>("Tungsten Monolith");
+  const [controlsExpanded, setControlsExpanded] = useState<boolean>(true);
+  const [hasInteracted, setHasInteracted] = useState<boolean>(false);
 
   // Three.js refs
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -230,7 +232,9 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     };
 
     if (!checkWebGL()) {
-      setWebGLSupported(false);
+      requestAnimationFrame(() => {
+        setWebGLSupported(false);
+      });
       return;
     }
 
@@ -250,7 +254,9 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
       rendererRef.current = renderer;
     } catch (e) {
       console.warn("WebGL renderer creation failed, falling back to 2D simulation mode:", e);
-      setWebGLSupported(false);
+      requestAnimationFrame(() => {
+        setWebGLSupported(false);
+      });
       return;
     }
 
@@ -446,11 +452,21 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     };
 
     const domElem = renderer.domElement;
+    domElem.style.touchAction = "none"; // Required for iOS Safari WebGL touch orbit without browser scroll conflicts
+    domElem.style.width = "100%";
+    domElem.style.height = "100%";
+
+    const handleInteractionStart = () => {
+      setHasInteracted(true);
+    };
+
     domElem.addEventListener("mousedown", onMouseDown);
+    domElem.addEventListener("mousedown", handleInteractionStart);
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
 
     domElem.addEventListener("touchstart", onTouchStart, { passive: true });
+    domElem.addEventListener("touchstart", handleInteractionStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: true });
     window.addEventListener("touchend", onTouchEnd);
 
@@ -497,8 +513,10 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
 
   return (
     <div
-      className={`relative w-full rounded-3xl overflow-hidden border border-white/10 bg-[#080808] ${
-        isStandalone ? "h-[85vh] min-h-[600px]" : "h-[620px]"
+      className={`relative w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 bg-[#080808] ${
+        isStandalone
+          ? "h-[75svh] sm:h-[82vh] min-h-[460px] sm:min-h-[580px]"
+          : "h-[460px] sm:h-[560px] lg:h-[620px]"
       }`}
     >
       {/* 3D WebGL Canvas Mount Container */}
@@ -542,33 +560,40 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
           <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/40 pointer-events-none" />
 
           {/* Fallback Notice */}
-          <div className="absolute top-20 left-6 px-3 py-1.5 rounded-full bg-[#080808]/80 backdrop-blur-md border border-white/10 text-[10px] font-mono-tech text-[#D89F54] flex items-center gap-1.5">
+          <div className="absolute top-16 sm:top-20 left-4 sm:left-6 px-3 py-1.5 rounded-full bg-[#080808]/80 backdrop-blur-md border border-white/10 text-[10px] font-mono-tech text-[#D89F54] flex items-center gap-1.5">
             <AlertCircle className="w-3 h-3" />
             <span>2D ATMOSPHERIC SIMULATION MODE</span>
           </div>
         </div>
       )}
 
+      {/* Orbit Interaction Hint (fades out on first touch/drag) */}
+      {!hasInteracted && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20 px-3.5 py-1.5 rounded-full bg-[#080808]/85 backdrop-blur-md border border-[#D89F54]/40 text-[10px] sm:text-xs font-mono-tech text-[#D89F54] animate-pulse text-center whitespace-nowrap shadow-xl">
+          Drag to orbit chamber
+        </div>
+      )}
+
       {/* Top Floating Telemetry HUD */}
-      <div className="absolute top-6 left-6 right-6 flex flex-wrap items-center justify-between gap-4 pointer-events-none">
-        <div className="px-4 py-2 rounded-full bg-[#080808]/85 backdrop-blur-md border border-white/10 text-xs font-mono-tech flex items-center gap-3">
+      <div className="absolute top-3 sm:top-6 left-3 sm:left-6 right-3 sm:right-6 flex items-center justify-between gap-2 pointer-events-none z-20">
+        <div className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#080808]/90 backdrop-blur-md border border-white/10 text-[11px] sm:text-xs font-mono-tech flex items-center gap-2 sm:gap-3">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-[#D89F54] animate-pulse" />
-            <span className="text-[#FAF7F2] font-semibold">THE LIGHT ROOM</span>
+            <span className="text-[#FAF7F2] font-semibold text-[10px] sm:text-xs">LIGHT ROOM</span>
           </div>
           <span className="text-[#787774]">|</span>
-          <span className="text-[#A3A29E]">{kelvin}K</span>
-          <span className="text-[#787774]">|</span>
-          <span className="text-[#D89F54] font-medium">{activePreset}</span>
+          <span className="text-[#A3A29E] font-medium">{kelvin}K</span>
+          <span className="text-[#787774] hidden xs:inline">|</span>
+          <span className="text-[#D89F54] font-medium hidden xs:inline truncate max-w-[120px]">{activePreset}</span>
         </div>
 
         <div className="flex items-center gap-2 pointer-events-auto">
           {webGLSupported && (
             <button
               onClick={resetCamera}
-              className="p-2.5 rounded-full bg-[#080808]/85 hover:bg-[#18181A] backdrop-blur-md border border-white/10 text-[#A3A29E] hover:text-[#FAF7F2] transition-colors"
+              className="p-2 sm:p-2.5 rounded-full bg-[#080808]/90 hover:bg-[#18181A] backdrop-blur-md border border-white/10 text-[#A3A29E] hover:text-[#FAF7F2] active:scale-95 transition-all"
               title="Reset Camera View"
-              data-cursor="RESET"
+              aria-label="Reset Camera View"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
@@ -577,10 +602,23 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
       </div>
 
       {/* Bottom Floating Interactive Controller Dock */}
-      <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
-        <div className="max-w-4xl mx-auto p-4 sm:p-5 rounded-2xl bg-[#0C0C0E]/90 backdrop-blur-xl border border-white/10 pointer-events-auto shadow-2xl">
-          {/* Preset Buttons */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-4 scrollbar-none text-xs font-mono-tech">
+      <div className="absolute bottom-3 sm:bottom-6 left-3 sm:left-6 right-3 sm:right-6 pointer-events-none z-20">
+        <div className="max-w-4xl mx-auto p-3 sm:p-5 rounded-2xl bg-[#0C0C0E]/92 backdrop-blur-xl border border-white/10 pointer-events-auto shadow-2xl">
+          {/* Mobile Collapse/Expand Bar */}
+          <div className="flex items-center justify-between pb-2 mb-2 sm:hidden border-b border-white/[0.08]">
+            <span className="text-[10px] font-mono-tech uppercase tracking-widest text-[#D89F54]">
+              {activePreset}
+            </span>
+            <button
+              onClick={() => setControlsExpanded(!controlsExpanded)}
+              className="text-[10px] font-mono-tech uppercase text-[#FAF7F2] bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-full transition-colors"
+            >
+              {controlsExpanded ? "Collapse ▾" : "Fine-Tune ▴"}
+            </button>
+          </div>
+
+          {/* Preset Buttons with smooth horizontal swipe */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-3 mb-2 sm:mb-4 ios-scroll-x text-xs font-mono-tech -mx-1 px-1">
             <span className="text-[10px] uppercase tracking-widest text-[#787774] shrink-0 mr-1 hidden sm:inline">
               Atmospheres:
             </span>
@@ -588,7 +626,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
               <button
                 key={preset.name}
                 onClick={() => applyPreset(preset)}
-                className={`px-3 py-1.5 rounded-full whitespace-nowrap transition-all ${
+                className={`px-3 py-1.5 rounded-full whitespace-nowrap transition-all active:scale-95 shrink-0 text-[11px] sm:text-xs ${
                   activePreset === preset.name
                     ? "bg-[#D89F54] text-[#080808] font-bold shadow-md shadow-[#D89F54]/20"
                     : "bg-[#18181C] text-[#A3A29E] hover:text-white hover:bg-[#222226] border border-white/[0.06]"
@@ -599,11 +637,11 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
             ))}
           </div>
 
-          {/* Precision Sliders */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono-tech">
+          {/* Precision Sliders (Collapsible on mobile) */}
+          <div className={`${controlsExpanded ? "grid" : "hidden sm:grid"} grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-xs font-mono-tech pt-1`}>
             {/* Kelvin Slider */}
             <div>
-              <div className="flex justify-between text-[11px] mb-1.5">
+              <div className="flex justify-between text-[11px] mb-1">
                 <span className="text-[#787774]">Color Temp (CCT):</span>
                 <span className="text-[#FAF7F2] font-semibold">{kelvin}K</span>
               </div>
@@ -617,13 +655,13 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
                   setKelvin(Number(e.target.value));
                   setActivePreset("Custom Calibration");
                 }}
-                className="w-full accent-[#D89F54] h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
+                className="w-full accent-[#D89F54] h-2 sm:h-1.5 bg-zinc-800 rounded-lg cursor-pointer touch-pan-x"
               />
             </div>
 
             {/* Sun Angle / Elevation */}
             <div>
-              <div className="flex justify-between text-[11px] mb-1.5">
+              <div className="flex justify-between text-[11px] mb-1">
                 <span className="text-[#787774]">Sun Elevation:</span>
                 <span className="text-[#FAF7F2] font-semibold">{elevation}°</span>
               </div>
@@ -637,13 +675,13 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
                   setElevation(Number(e.target.value));
                   setActivePreset("Custom Calibration");
                 }}
-                className="w-full accent-[#D89F54] h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
+                className="w-full accent-[#D89F54] h-2 sm:h-1.5 bg-zinc-800 rounded-lg cursor-pointer touch-pan-x"
               />
             </div>
 
             {/* Intensity / Lux */}
             <div>
-              <div className="flex justify-between text-[11px] mb-1.5">
+              <div className="flex justify-between text-[11px] mb-1">
                 <span className="text-[#787774]">Lux Intensity:</span>
                 <span className="text-[#FAF7F2] font-semibold">{(intensity * 50).toFixed(0)}%</span>
               </div>
@@ -657,7 +695,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
                   setIntensity(Number(e.target.value));
                   setActivePreset("Custom Calibration");
                 }}
-                className="w-full accent-[#D89F54] h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
+                className="w-full accent-[#D89F54] h-2 sm:h-1.5 bg-zinc-800 rounded-lg cursor-pointer touch-pan-x"
               />
             </div>
           </div>
