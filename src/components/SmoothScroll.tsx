@@ -8,24 +8,15 @@ export function SmoothScroll() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Detect touch-first / mobile device
-    const isTouchDevice =
-      typeof window !== "undefined" &&
-      ("ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        window.matchMedia("(pointer: coarse)").matches);
-
-    // Initialize Lenis with refined kinetic physics
-    // On iOS and touch devices, preserve 100% native momentum scrolling and ProMotion 120Hz
+    // Initialize Lenis with refined kinetic linear interpolation for smooth and steady scrolling
     const lenis = new Lenis({
-      duration: isTouchDevice ? 0.8 : 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential deceleration
-      orientation: "vertical",
-      gestureOrientation: "vertical",
-      smoothWheel: true,
+      lerp: 0.08, // Buttery smooth linear interpolation for steady, predictable velocity
       wheelMultiplier: 0.95,
-      touchMultiplier: isTouchDevice ? 0 : 1, // Disable touch interception on iOS/mobile to keep native velocity
-      infinite: false,
+      touchMultiplier: 1.0,
+      syncTouch: true, // Smooth and steady on mobile/touch screens
+      syncTouchLerp: 0.08,
+      autoResize: true,
+      smoothWheel: true,
     });
 
     // Expose lenis instance globally for programmatic scrolling

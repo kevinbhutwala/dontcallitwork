@@ -147,68 +147,69 @@ html.lenis body {
   height: auto;
 }
 
-.lenis:not(.lenis-autoToggle).lenis-stopped {
-  overflow: clip;
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
+.lenis.lenis-smooth [data-lenis-prevent],
 .lenis [data-lenis-prevent],
 .lenis [data-lenis-prevent-wheel],
 .lenis [data-lenis-prevent-touch] {
   overscroll-behavior: contain;
 }
 
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-scrolling iframe,
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
 
-/* Editorial Scroll Reveal Animations */
+/* Editorial Scroll Reveal Animations - Pure GPU Composited (Zero Jank) */
 @keyframes autoRevealFallback {
   to {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 }
 
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
-  filter: blur(3px);
+  transform: translateY(20px);
   animation: autoRevealFallback 0.2s forwards;
   animation-delay: 1.2s; /* Guarantees content is never stuck hidden */
   transition: 
-    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform, filter;
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .reveal-on-scroll.is-visible {
   animation: none;
   opacity: 1;
   transform: translateY(0);
-  filter: blur(0);
+  will-change: auto;
 }
 
 /* Scale & Depth Scroll Reveal */
 .reveal-scale {
   opacity: 0;
-  transform: scale(0.98) translateY(20px);
-  filter: blur(3px);
+  transform: scale(0.98) translateY(16px);
   animation: autoRevealFallback 0.2s forwards;
-  animation-delay: 1.2s; /* Guarantees content is never stuck hidden */
+  animation-delay: 1.2s;
   transition: 
-    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform, filter;
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .reveal-scale.is-visible {
   animation: none;
   opacity: 1;
   transform: scale(1) translateY(0);
-  filter: blur(0);
+  will-change: auto;
 }
 
 /* Stagger Delays */

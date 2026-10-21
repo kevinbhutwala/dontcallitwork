@@ -496,8 +496,20 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     resizeObserver.observe(container);
 
     let animId: number;
+    let isVisible = true;
+    const visibilityObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]) {
+          isVisible = entries[0].isIntersecting;
+        }
+      },
+      { threshold: 0 }
+    );
+    visibilityObserver.observe(container);
+
     const animate = () => {
       animId = requestAnimationFrame(animate);
+      if (!isVisible) return; // Pause GPU passes while user scrolls other sections
       if (!isDraggingRef.current) {
         cameraAngleRef.current.theta += 0.0006;
         updateCameraPosition();
@@ -508,6 +520,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
 
     return () => {
       cancelAnimationFrame(animId);
+      visibilityObserver.disconnect();
       window.removeEventListener("resize", handleResize);
       resizeObserver.disconnect();
       domElem.removeEventListener("mousedown", onMouseDown);
