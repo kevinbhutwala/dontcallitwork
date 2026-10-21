@@ -238,7 +238,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
       return;
     }
 
-    const width = container.clientWidth;
+    const width = container.clientWidth || 800;
     const height = container.clientHeight || 560;
 
     let renderer: THREE.WebGLRenderer;
@@ -399,6 +399,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     slitLight.castShadow = false;
     scene.add(slitLight);
     slitLightRef.current = slitLight;
+    updateLights();
 
     // 6. Mouse Orbit Drag Event Handlers
     const onMouseDown = (e: MouseEvent) => {
@@ -472,7 +473,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
 
     const handleResize = () => {
       if (!container || !renderer || !camera) return;
-      const newWidth = container.clientWidth;
+      const newWidth = container.clientWidth || 800;
       const newHeight = container.clientHeight || 560;
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
@@ -480,6 +481,19 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     };
 
     window.addEventListener("resize", handleResize);
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const newWidth = Math.round(entry.contentRect.width);
+        const newHeight = Math.round(entry.contentRect.height) || 560;
+        if (newWidth > 10 && newHeight > 10 && camera && renderer) {
+          camera.aspect = newWidth / newHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(newWidth, newHeight);
+        }
+      }
+    });
+    resizeObserver.observe(container);
 
     let animId: number;
     const animate = () => {
@@ -495,6 +509,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
       domElem.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
@@ -507,6 +522,7 @@ export function LightRoom3D({ isStandalone = false }: { isStandalone?: boolean }
       }
       renderer.dispose();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const currentPresetData = PRESETS.find((p) => p.name === activePreset) || PRESETS[0];

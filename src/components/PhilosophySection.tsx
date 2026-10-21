@@ -92,7 +92,7 @@ export function PhilosophySection() {
           </div>
 
           {/* Right: Immersive Visual & Photometric Metric */}
-          <div className="lg:col-span-6 relative reveal-scale delay-200">
+          <div className="lg:col-span-6 relative reveal-on-scroll delay-100">
             <div className="relative h-[320px] sm:h-[440px] lg:h-[560px] w-full rounded-2xl overflow-hidden border border-white/10 group">
               <Image
                 src={pillars[activePillar].image}

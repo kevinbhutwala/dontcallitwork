@@ -45,7 +45,7 @@ export function MaterialAtmosphereSection() {
         </div>
 
         {/* Interactive Material Stage */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch rounded-3xl border border-white/10 bg-[#121214] p-4 sm:p-7 md:p-10 reveal-scale delay-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch rounded-3xl border border-white/10 bg-[#121214] p-4 sm:p-7 md:p-10 reveal-on-scroll delay-100">
           {/* Macro Visual */}
           <div className="lg:col-span-6 relative min-h-[260px] sm:min-h-[380px] lg:min-h-[500px] rounded-2xl overflow-hidden border border-white/10 group">
             {MATERIALS.map((mat) => (

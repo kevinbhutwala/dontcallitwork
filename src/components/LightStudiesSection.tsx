@@ -163,7 +163,7 @@ export function LightStudiesSection() {
         </div>
 
         {/* Interactive Showcase Box: Image + Photometric Telemetry */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch rounded-3xl border border-white/10 bg-[#121215] overflow-hidden p-4 sm:p-6 md:p-8 reveal-scale delay-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch rounded-3xl border border-white/10 bg-[#121215] overflow-hidden p-4 sm:p-6 md:p-8 reveal-on-scroll delay-100">
           {/* Left: Dynamic Visual with smooth transition */}
           <div 
             className="lg:col-span-7 relative min-h-[260px] sm:min-h-[380px] lg:min-h-[480px] rounded-2xl overflow-hidden border border-white/[0.08] transition-shadow duration-700"

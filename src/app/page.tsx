@@ -60,7 +60,7 @@ export default function Home() {
           </div>
 
           {/* Interactive Three.js WebGL Chamber */}
-          <div className="reveal-scale delay-100">
+          <div className="reveal-on-scroll delay-100">
             <LightRoom3D isStandalone={false} />
           </div>
         </div>

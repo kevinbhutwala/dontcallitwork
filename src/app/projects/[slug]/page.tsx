@@ -117,7 +117,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
               {project.gallery.map((img, idx) => (
                 <div
                   key={idx}
-                  className="rounded-2xl overflow-hidden border border-white/10 bg-[#121214] group reveal-scale delay-100"
+                  className="rounded-2xl overflow-hidden border border-white/10 bg-[#121214] group reveal-on-scroll delay-100"
                 >
                   <div className="relative h-[250px] sm:h-[400px] md:h-[500px] w-full overflow-hidden">
                     <Image

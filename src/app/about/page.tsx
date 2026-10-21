@@ -31,7 +31,7 @@ export default function AboutPage() {
         </div>
 
         {/* Studio Image & Core Philosophy Banner */}
-        <div className="relative h-[260px] sm:h-[450px] md:h-[600px] w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 mb-12 sm:mb-20 reveal-scale delay-100">
+        <div className="relative h-[260px] sm:h-[450px] md:h-[600px] w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 mb-12 sm:mb-20 reveal-on-scroll delay-100">
           <Image
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2400&q=90"
             alt="DON'T CALL IT WORK Architectural Interior"

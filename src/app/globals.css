@@ -162,18 +162,29 @@ html.lenis body {
 }
 
 /* Editorial Scroll Reveal Animations */
+@keyframes autoRevealFallback {
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(32px);
-  filter: blur(4px);
+  transform: translateY(24px);
+  filter: blur(3px);
+  animation: autoRevealFallback 0.2s forwards;
+  animation-delay: 1.2s; /* Guarantees content is never stuck hidden */
   transition: 
-    opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 1s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform, filter;
 }
 
 .reveal-on-scroll.is-visible {
+  animation: none;
   opacity: 1;
   transform: translateY(0);
   filter: blur(0);
@@ -182,16 +193,19 @@ html.lenis body {
 /* Scale & Depth Scroll Reveal */
 .reveal-scale {
   opacity: 0;
-  transform: scale(0.97) translateY(24px);
-  filter: blur(5px);
+  transform: scale(0.98) translateY(20px);
+  filter: blur(3px);
+  animation: autoRevealFallback 0.2s forwards;
+  animation-delay: 1.2s; /* Guarantees content is never stuck hidden */
   transition: 
-    opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform, filter;
 }
 
 .reveal-scale.is-visible {
+  animation: none;
   opacity: 1;
   transform: scale(1) translateY(0);
   filter: blur(0);

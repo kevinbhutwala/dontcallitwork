@@ -134,7 +134,7 @@ export function ProcessSection() {
           </div>
 
           {/* Right Column (Primary Stage on Mobile & Desktop): Visual Stage with Details */}
-          <div className="lg:col-span-7 lg:sticky lg:top-28 reveal-scale delay-100">
+          <div className="lg:col-span-7 lg:sticky lg:top-28 reveal-on-scroll delay-100">
             <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#121215] p-4 sm:p-6 md:p-8">
               <div className="relative h-[240px] sm:h-[340px] md:h-[400px] w-full rounded-2xl overflow-hidden mb-5 sm:mb-6 border border-white/10">
                 <Image
